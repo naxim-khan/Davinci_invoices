@@ -1,0 +1,40 @@
+export interface Invoice {
+    id: number;
+    invoiceNumber: string;
+    issueDate: string;
+    dueDate: string | null;
+    status: string;
+    clientName: string;
+    clientAddress: string | null;
+    flightNumber: string | null;
+    originIcao: string | null;
+    destinationIcao: string | null;
+    originIata: string | null;
+    destinationIata: string | null;
+    registrationNumber: string | null;
+    aircraftModelName: string | null;
+    flightDate: string | null;
+    firName: string | null;
+    firCountry: string | null;
+    invoiceTemplate: string | null;
+    firEntryTimeUtc: string | null;
+    firExitTimeUtc: string | null;
+    feeDescription: string | null;
+    feeAmount: number;
+    otherFeesAmount: any; // JSON type from database
+    totalOriginalAmount: number;
+    originalCurrency: string | null;
+    fxRate: number | null;
+    totalUsdAmount: number;
+    qrCodeData: string | null;
+    logoKey: string | null;
+    mapHtml: string | null;
+    createdAt: string;
+    updatedAt: string;
+    act: string | null;
+    flightId: string;
+    modeSHex: string | null;
+    alic: string | null;
+    operatorId: number | null;
+    includedInConsolidatedInvoiceId: number | null;
+}

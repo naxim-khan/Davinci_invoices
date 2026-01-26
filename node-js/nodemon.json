@@ -1,0 +1,16 @@
+{
+    "watch": [
+        "src"
+    ],
+    "ext": "ts",
+    "exec": "tsx src/index.ts",
+    "env": {
+        "NODE_ENV": "development"
+    },
+    "ignore": [
+        "src/**/*.spec.ts",
+        "src/**/*.test.ts",
+        "dist"
+    ],
+    "delay": 500
+}

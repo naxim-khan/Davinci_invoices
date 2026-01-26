@@ -1,0 +1,71 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+@theme {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+@layer base {
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    @apply text-gray-900 bg-gray-50;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body {
+    background-color: white !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Force the printable container to be visible and unclipped */
+  #invoice-printable {
+    border: none !important;
+    overflow: visible !important;
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+  }
+
+  /* Ensure map iframes are visible during normal view, but allow hiding during print if a capture exists */
+  iframe {
+    width: 100% !important;
+    height: 350px !important;
+    min-height: 350px !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    border: none !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+  }
+
+  /* Specific rule to hide iframe and show image if captured */
+  .print\:hidden {
+    display: none !important;
+  }
+
+  .print\:block {
+    display: block !important;
+  }
+
+  /* Hide print buttons and scrollbars */
+  .no-print,
+  button,
+  .scroll-shadow {
+    display: none !important;
+  }
+}

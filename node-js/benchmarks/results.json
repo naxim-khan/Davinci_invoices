@@ -1,0 +1,2457 @@
+[
+  {
+    "flightId": "2733210160",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 16136,
+    "timestamp": "2026-01-19T12:54:00.606Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733199927",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 16346,
+    "timestamp": "2026-01-19T12:54:16.956Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733106330",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 6158,
+    "timestamp": "2026-01-19T12:54:23.115Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733213223",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 4833,
+    "timestamp": "2026-01-19T12:54:27.951Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733182566",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 7095,
+    "timestamp": "2026-01-19T12:54:35.048Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733219002",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 5634,
+    "timestamp": "2026-01-19T12:54:40.684Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733106017",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 9316,
+    "timestamp": "2026-01-19T12:54:50.003Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733210370",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 6101,
+    "timestamp": "2026-01-19T12:54:56.105Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733196995",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 5094,
+    "timestamp": "2026-01-19T12:55:01.201Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733104208",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 7310,
+    "timestamp": "2026-01-19T12:55:08.513Z",
+    "status": "SUCCESS"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_SEQUENTIAL",
+    "durationMs": 86116,
+    "timestamp": "2026-01-19T12:55:08.515Z"
+  },
+  {
+    "flightId": "2733164736",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 7535,
+    "timestamp": "2026-01-19T12:55:50.708Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733128951",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 5372,
+    "timestamp": "2026-01-19T12:55:56.082Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733209473",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 7340,
+    "timestamp": "2026-01-19T12:56:03.424Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733174599",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 8546,
+    "timestamp": "2026-01-19T12:56:11.972Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733211554",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 7301,
+    "timestamp": "2026-01-19T12:56:19.275Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733221118",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 5473,
+    "timestamp": "2026-01-19T12:56:24.749Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733187074",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 5738,
+    "timestamp": "2026-01-19T12:56:30.488Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733036353",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 6405,
+    "timestamp": "2026-01-19T12:56:36.895Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733150285",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 8066,
+    "timestamp": "2026-01-19T12:56:44.964Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733197634",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 5811,
+    "timestamp": "2026-01-19T12:56:50.778Z",
+    "status": "SUCCESS"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_SEQUENTIAL",
+    "durationMs": 69987,
+    "timestamp": "2026-01-19T12:56:50.781Z"
+  },
+  {
+    "flightId": "2733214551",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 4754,
+    "timestamp": "2026-01-19T12:57:29.140Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733187739",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 9641,
+    "timestamp": "2026-01-19T12:57:38.783Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733200718",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 5428,
+    "timestamp": "2026-01-19T12:57:44.212Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733180638",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 29908,
+    "timestamp": "2026-01-19T12:58:14.122Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733223175",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 7366,
+    "timestamp": "2026-01-19T12:58:21.491Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733202787",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 6098,
+    "timestamp": "2026-01-19T12:58:27.592Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733218429",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 7073,
+    "timestamp": "2026-01-19T12:58:34.666Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733223595",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 6581,
+    "timestamp": "2026-01-19T12:58:41.255Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733207783",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 10740,
+    "timestamp": "2026-01-19T12:58:51.985Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733203588",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 8690,
+    "timestamp": "2026-01-19T12:59:00.677Z",
+    "status": "SUCCESS"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_SEQUENTIAL",
+    "durationMs": 97920,
+    "timestamp": "2026-01-19T12:59:00.679Z"
+  },
+  {
+    "flightId": "2733174753",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 6439,
+    "timestamp": "2026-01-19T12:59:41.862Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733187932",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 8639,
+    "timestamp": "2026-01-19T12:59:50.514Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733189284",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 10085,
+    "timestamp": "2026-01-19T13:00:00.601Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733201123",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 4656,
+    "timestamp": "2026-01-19T13:00:05.259Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733161492",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 13650,
+    "timestamp": "2026-01-19T13:00:18.911Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733211601",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 3961,
+    "timestamp": "2026-01-19T13:00:22.875Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733174769",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 38834,
+    "timestamp": "2026-01-19T13:01:01.712Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733105832",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 10711,
+    "timestamp": "2026-01-19T13:01:12.426Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733209173",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 14746,
+    "timestamp": "2026-01-19T13:01:27.173Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733192583",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 17871,
+    "timestamp": "2026-01-19T13:01:45.048Z",
+    "status": "SUCCESS"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_SEQUENTIAL",
+    "durationMs": 132129,
+    "timestamp": "2026-01-19T13:01:45.053Z"
+  },
+  {
+    "flightId": "2733206016",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 16256,
+    "timestamp": "2026-01-19T13:02:35.539Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733083649",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 14163,
+    "timestamp": "2026-01-19T13:02:49.715Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733104488",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 13629,
+    "timestamp": "2026-01-19T13:03:03.345Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733224967",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 13073,
+    "timestamp": "2026-01-19T13:03:16.420Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733214029",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 7017,
+    "timestamp": "2026-01-19T13:03:23.439Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733208941",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 6682,
+    "timestamp": "2026-01-19T13:03:30.123Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733213055",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 7250,
+    "timestamp": "2026-01-19T13:03:37.376Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733157567",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 13504,
+    "timestamp": "2026-01-19T13:03:50.881Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733223582",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 6932,
+    "timestamp": "2026-01-19T13:03:57.817Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733208223",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 5903,
+    "timestamp": "2026-01-19T13:04:03.722Z",
+    "status": "SUCCESS"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_SEQUENTIAL",
+    "durationMs": 106093,
+    "timestamp": "2026-01-19T13:04:03.724Z"
+  },
+  {
+    "flightId": "2733218792",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 4258,
+    "timestamp": "2026-01-19T13:04:47.982Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733204109",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 6949,
+    "timestamp": "2026-01-19T13:04:54.933Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733107143",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 7009,
+    "timestamp": "2026-01-19T13:05:01.944Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733194298",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 7846,
+    "timestamp": "2026-01-19T13:05:09.791Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733222792",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 6568,
+    "timestamp": "2026-01-19T13:05:16.361Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733066902",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 12232,
+    "timestamp": "2026-01-19T13:05:28.596Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733185729",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 30813,
+    "timestamp": "2026-01-19T13:05:59.411Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733101456",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 6793,
+    "timestamp": "2026-01-19T13:06:06.206Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733201611",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 11226,
+    "timestamp": "2026-01-19T13:06:17.433Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733108050",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 5590,
+    "timestamp": "2026-01-19T13:06:23.025Z",
+    "status": "SUCCESS"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_SEQUENTIAL",
+    "durationMs": 101295,
+    "timestamp": "2026-01-19T13:06:23.030Z"
+  },
+  {
+    "flightId": "2733207336",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 7890,
+    "timestamp": "2026-01-19T13:07:03.500Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733189476",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 9135,
+    "timestamp": "2026-01-19T13:07:12.640Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733201838",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 7237,
+    "timestamp": "2026-01-19T13:07:19.886Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733217545",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 7588,
+    "timestamp": "2026-01-19T13:07:27.475Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733218496",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 6571,
+    "timestamp": "2026-01-19T13:07:34.048Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733202383",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 10395,
+    "timestamp": "2026-01-19T13:07:44.445Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733216579",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 10200,
+    "timestamp": "2026-01-19T13:07:54.646Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733103672",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 17438,
+    "timestamp": "2026-01-19T13:08:12.085Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733197727",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 11390,
+    "timestamp": "2026-01-19T13:08:23.480Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733202131",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 16074,
+    "timestamp": "2026-01-19T13:08:39.555Z",
+    "status": "SUCCESS"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_SEQUENTIAL",
+    "durationMs": 106284,
+    "timestamp": "2026-01-19T13:08:39.557Z"
+  },
+  {
+    "flightId": "2733184823",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 9027,
+    "timestamp": "2026-01-19T13:09:22.061Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733182654",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 7283,
+    "timestamp": "2026-01-19T13:09:29.346Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733206576",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 6231,
+    "timestamp": "2026-01-19T13:09:35.579Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733205384",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 6154,
+    "timestamp": "2026-01-19T13:09:41.735Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733111857",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 52982,
+    "timestamp": "2026-01-19T13:10:34.721Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733199067",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 7459,
+    "timestamp": "2026-01-19T13:10:42.191Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733201410",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 6067,
+    "timestamp": "2026-01-19T13:10:48.263Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733201464",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 6121,
+    "timestamp": "2026-01-19T13:10:54.386Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733210802",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 5806,
+    "timestamp": "2026-01-19T13:11:00.194Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733095838",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 40206,
+    "timestamp": "2026-01-19T13:11:40.401Z",
+    "status": "SUCCESS"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_SEQUENTIAL",
+    "durationMs": 149059,
+    "timestamp": "2026-01-19T13:11:40.404Z"
+  },
+  {
+    "flightId": "2733214053",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 5290,
+    "timestamp": "2026-01-19T13:12:17.541Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733199904",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 7817,
+    "timestamp": "2026-01-19T13:12:25.361Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733105969",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 14801,
+    "timestamp": "2026-01-19T13:12:40.164Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733168979",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 18718,
+    "timestamp": "2026-01-19T13:12:58.884Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733207268",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 38235,
+    "timestamp": "2026-01-19T13:13:37.127Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733201584",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 21941,
+    "timestamp": "2026-01-19T13:13:59.092Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733209655",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 24864,
+    "timestamp": "2026-01-19T13:14:23.972Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733136495",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 21075,
+    "timestamp": "2026-01-19T13:14:45.096Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733175122",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 25968,
+    "timestamp": "2026-01-19T13:15:11.065Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733203878",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 11381,
+    "timestamp": "2026-01-19T13:15:22.466Z",
+    "status": "SUCCESS"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_SEQUENTIAL",
+    "durationMs": 191838,
+    "timestamp": "2026-01-19T13:15:22.482Z"
+  },
+  {
+    "flightId": "2733099321",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 20927,
+    "timestamp": "2026-01-19T13:16:18.474Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733194652",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 24206,
+    "timestamp": "2026-01-19T13:16:42.696Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733173200",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 18382,
+    "timestamp": "2026-01-19T13:17:01.094Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733201040",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 10588,
+    "timestamp": "2026-01-19T13:17:11.759Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733175291",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 22218,
+    "timestamp": "2026-01-19T13:17:33.979Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733201025",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 18131,
+    "timestamp": "2026-01-19T13:17:52.131Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733193980",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 10525,
+    "timestamp": "2026-01-19T13:18:02.659Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733106435",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 8497,
+    "timestamp": "2026-01-19T13:18:11.159Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733155979",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 10551,
+    "timestamp": "2026-01-19T13:18:21.713Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733035234",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 75244,
+    "timestamp": "2026-01-19T13:19:36.968Z",
+    "status": "SUCCESS"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_SEQUENTIAL",
+    "durationMs": 222319,
+    "timestamp": "2026-01-19T13:19:37.001Z"
+  },
+  {
+    "flightId": "2733221557",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 58058,
+    "timestamp": "2026-01-19T13:21:07.051Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733086433",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 14211,
+    "timestamp": "2026-01-19T13:21:21.365Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733202151",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 10975,
+    "timestamp": "2026-01-19T13:21:32.347Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733187381",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 17106,
+    "timestamp": "2026-01-19T13:21:49.456Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733213580",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 29562,
+    "timestamp": "2026-01-19T13:22:19.020Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733104762",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 11712,
+    "timestamp": "2026-01-19T13:22:30.734Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733206711",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 19172,
+    "timestamp": "2026-01-19T13:22:49.922Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733178464",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 60557,
+    "timestamp": "2026-01-19T13:23:50.494Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733216605",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 46524,
+    "timestamp": "2026-01-19T13:24:37.050Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733134300",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 26850,
+    "timestamp": "2026-01-19T13:25:03.915Z",
+    "status": "SUCCESS"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_SEQUENTIAL",
+    "durationMs": 296572,
+    "timestamp": "2026-01-19T13:25:03.924Z"
+  },
+  {
+    "flightId": "2733204946",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 32853,
+    "timestamp": "2026-01-19T13:26:10.702Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733213256",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 11484,
+    "timestamp": "2026-01-19T13:26:22.274Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733209485",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 13752,
+    "timestamp": "2026-01-19T13:26:36.029Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733211482",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 19000,
+    "timestamp": "2026-01-19T13:26:55.063Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733211625",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 13020,
+    "timestamp": "2026-01-19T13:27:08.161Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733190153",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 12401,
+    "timestamp": "2026-01-19T13:27:20.568Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733186641",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 10776,
+    "timestamp": "2026-01-19T13:27:31.358Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733098451",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 19123,
+    "timestamp": "2026-01-19T13:27:50.605Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733186750",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 6138,
+    "timestamp": "2026-01-19T13:27:56.745Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733204946",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 20993,
+    "timestamp": "2026-01-19T16:56:04.242Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733213256",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 10429,
+    "timestamp": "2026-01-19T16:56:14.704Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733209485",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 7241,
+    "timestamp": "2026-01-19T16:56:21.948Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733211482",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 20834,
+    "timestamp": "2026-01-19T16:56:42.786Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733211625",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 7918,
+    "timestamp": "2026-01-19T16:56:50.721Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733190153",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 11771,
+    "timestamp": "2026-01-19T16:57:02.495Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733186641",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 13405,
+    "timestamp": "2026-01-19T16:57:15.900Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733098451",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 10971,
+    "timestamp": "2026-01-19T16:57:26.888Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733186750",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 7842,
+    "timestamp": "2026-01-19T16:57:34.733Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733210836",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 7264,
+    "timestamp": "2026-01-19T16:57:41.998Z",
+    "status": "SUCCESS"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_SEQUENTIAL",
+    "durationMs": 121832,
+    "timestamp": "2026-01-19T16:57:42.001Z"
+  },
+  {
+    "flightId": "2733216990",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 5284,
+    "timestamp": "2026-01-19T16:58:20.927Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733211770",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 4038,
+    "timestamp": "2026-01-19T16:58:24.970Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733202670",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 4023,
+    "timestamp": "2026-01-19T16:58:28.996Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733106125",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 3609,
+    "timestamp": "2026-01-19T16:58:32.639Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733171783",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 28449,
+    "timestamp": "2026-01-19T16:59:01.090Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733155915",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 7614,
+    "timestamp": "2026-01-19T16:59:08.707Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733212951",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 5044,
+    "timestamp": "2026-01-19T16:59:13.754Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733156346",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 5868,
+    "timestamp": "2026-01-19T16:59:19.623Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733189189",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 6122,
+    "timestamp": "2026-01-19T16:59:25.747Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733171964",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 5615,
+    "timestamp": "2026-01-19T16:59:31.365Z",
+    "status": "SUCCESS"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_SEQUENTIAL",
+    "durationMs": 77575,
+    "timestamp": "2026-01-19T16:59:31.370Z"
+  },
+  {
+    "flightId": "2733095082",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 4647,
+    "timestamp": "2026-01-19T17:00:09.605Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733212321",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 7974,
+    "timestamp": "2026-01-19T17:00:17.581Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733174689",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 8988,
+    "timestamp": "2026-01-19T17:00:26.559Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733110894",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 37528,
+    "timestamp": "2026-01-19T17:01:04.089Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733209670",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 4229,
+    "timestamp": "2026-01-19T17:01:08.320Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733154570",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 6228,
+    "timestamp": "2026-01-19T17:01:14.551Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733098274",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 3590,
+    "timestamp": "2026-01-19T17:01:18.143Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733216538",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 3896,
+    "timestamp": "2026-01-19T17:01:22.053Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733210790",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 4156,
+    "timestamp": "2026-01-19T17:01:26.211Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733190392",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 4174,
+    "timestamp": "2026-01-19T17:01:30.388Z",
+    "status": "SUCCESS"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_SEQUENTIAL",
+    "durationMs": 87308,
+    "timestamp": "2026-01-19T17:01:30.391Z"
+  },
+  {
+    "flightId": "2733170739",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 3577,
+    "timestamp": "2026-01-19T17:02:05.898Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733198468",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 4151,
+    "timestamp": "2026-01-19T17:02:10.051Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733106495",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 3577,
+    "timestamp": "2026-01-19T17:02:13.630Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733220680",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 3847,
+    "timestamp": "2026-01-19T17:02:17.478Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733214020",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 3710,
+    "timestamp": "2026-01-19T17:02:21.190Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733190975",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 5075,
+    "timestamp": "2026-01-19T17:02:26.267Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733180663",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 20389,
+    "timestamp": "2026-01-19T17:02:46.659Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733170229",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 14483,
+    "timestamp": "2026-01-19T17:03:01.144Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733104786",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 11248,
+    "timestamp": "2026-01-19T17:03:12.403Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733202762",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 12057,
+    "timestamp": "2026-01-19T17:03:24.461Z",
+    "status": "SUCCESS"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_SEQUENTIAL",
+    "durationMs": 83830,
+    "timestamp": "2026-01-19T17:03:24.464Z"
+  },
+  {
+    "flightId": "2733214970",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 6961,
+    "timestamp": "2026-01-19T17:04:04.854Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733094170",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 4293,
+    "timestamp": "2026-01-19T17:04:09.158Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733156004",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 4645,
+    "timestamp": "2026-01-19T17:04:13.806Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733190765",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 5828,
+    "timestamp": "2026-01-19T17:04:19.636Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733220370",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 4488,
+    "timestamp": "2026-01-19T17:04:24.129Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733190979",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 5146,
+    "timestamp": "2026-01-19T17:04:29.279Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733181543",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 5473,
+    "timestamp": "2026-01-19T17:04:34.756Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733210956",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 8163,
+    "timestamp": "2026-01-19T17:04:42.922Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733204525",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 8503,
+    "timestamp": "2026-01-19T17:04:51.427Z",
+    "status": "SUCCESS"
+  },
+  {
+    "flightId": "2733199892",
+    "mode": "SINGLE_THREAD",
+    "durationMs": 6540,
+    "timestamp": "2026-01-19T17:04:57.968Z",
+    "status": "SUCCESS"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_SEQUENTIAL",
+    "durationMs": 61775,
+    "timestamp": "2026-01-19T17:04:57.971Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8213,
+    "timestamp": "2026-01-20T11:16:24.291Z"
+  },
+  {
+    "batchSize": 6,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 6966,
+    "timestamp": "2026-01-20T11:17:01.559Z"
+  },
+  {
+    "batchSize": 5,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5452,
+    "timestamp": "2026-01-20T11:17:37.270Z"
+  },
+  {
+    "batchSize": 3,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4488,
+    "timestamp": "2026-01-20T11:18:12.007Z"
+  },
+  {
+    "batchSize": 2,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 3893,
+    "timestamp": "2026-01-20T11:18:46.286Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8566,
+    "timestamp": "2026-01-20T11:19:27.112Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8828,
+    "timestamp": "2026-01-20T11:20:10.325Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10672,
+    "timestamp": "2026-01-20T11:20:35.620Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 32423,
+    "timestamp": "2026-01-20T11:21:18.289Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11381,
+    "timestamp": "2026-01-20T11:22:53.295Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8038,
+    "timestamp": "2026-01-20T11:41:13.525Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 14759,
+    "timestamp": "2026-01-20T11:45:49.176Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 12573,
+    "timestamp": "2026-01-20T11:46:32.012Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8557,
+    "timestamp": "2026-01-20T11:47:10.823Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8068,
+    "timestamp": "2026-01-20T11:47:49.139Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7737,
+    "timestamp": "2026-01-20T11:48:27.128Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 12882,
+    "timestamp": "2026-01-20T12:15:34.698Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 15352,
+    "timestamp": "2026-01-20T12:16:20.309Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 12614,
+    "timestamp": "2026-01-20T12:18:39.934Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 13670,
+    "timestamp": "2026-01-20T12:19:23.859Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11800,
+    "timestamp": "2026-01-20T12:20:05.905Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 18645,
+    "timestamp": "2026-01-20T12:20:54.803Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 14356,
+    "timestamp": "2026-01-20T12:21:39.429Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8065,
+    "timestamp": "2026-01-20T12:26:15.619Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8441,
+    "timestamp": "2026-01-20T12:26:54.329Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 17601,
+    "timestamp": "2026-01-20T12:27:42.214Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8112,
+    "timestamp": "2026-01-20T12:28:20.628Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7759,
+    "timestamp": "2026-01-20T12:28:58.656Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7917,
+    "timestamp": "2026-01-20T12:52:57.825Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8592,
+    "timestamp": "2026-01-20T12:53:36.681Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8846,
+    "timestamp": "2026-01-20T12:54:15.773Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10423,
+    "timestamp": "2026-01-20T12:54:56.439Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8331,
+    "timestamp": "2026-01-20T12:55:35.050Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8454,
+    "timestamp": "2026-01-21T05:38:13.634Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7599,
+    "timestamp": "2026-01-21T05:38:51.511Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7769,
+    "timestamp": "2026-01-21T05:39:29.524Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 6297,
+    "timestamp": "2026-01-21T05:40:06.071Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9731,
+    "timestamp": "2026-01-21T05:40:47.025Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 12212,
+    "timestamp": "2026-01-21T05:50:04.358Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7523,
+    "timestamp": "2026-01-21T05:50:41.936Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8459,
+    "timestamp": "2026-01-21T05:51:20.649Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7578,
+    "timestamp": "2026-01-21T05:51:58.489Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11344,
+    "timestamp": "2026-01-21T06:07:57.068Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 6980,
+    "timestamp": "2026-01-21T06:08:34.365Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9238,
+    "timestamp": "2026-01-21T06:09:13.924Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10319,
+    "timestamp": "2026-01-21T06:09:54.482Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9245,
+    "timestamp": "2026-01-21T06:10:34.070Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 12768,
+    "timestamp": "2026-01-21T10:36:25.272Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 12540,
+    "timestamp": "2026-01-21T10:36:49.097Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10411,
+    "timestamp": "2026-01-21T10:37:11.594Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 17064,
+    "timestamp": "2026-01-21T10:37:37.903Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8794,
+    "timestamp": "2026-01-21T10:37:51.139Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9833,
+    "timestamp": "2026-01-21T10:38:18.266Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10608,
+    "timestamp": "2026-01-21T10:38:32.030Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10074,
+    "timestamp": "2026-01-21T10:38:58.596Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 12132,
+    "timestamp": "2026-01-21T10:39:14.434Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10076,
+    "timestamp": "2026-01-21T10:39:38.945Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7225,
+    "timestamp": "2026-01-21T10:39:52.002Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 14966,
+    "timestamp": "2026-01-21T10:44:13.451Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 15274,
+    "timestamp": "2026-01-21T10:44:13.804Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 12574,
+    "timestamp": "2026-01-21T10:44:56.449Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 12382,
+    "timestamp": "2026-01-21T10:44:56.514Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11096,
+    "timestamp": "2026-01-21T10:45:37.862Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11576,
+    "timestamp": "2026-01-21T10:45:38.094Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11504,
+    "timestamp": "2026-01-21T10:46:19.389Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 12234,
+    "timestamp": "2026-01-21T10:46:20.223Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9064,
+    "timestamp": "2026-01-21T10:46:59.680Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10470,
+    "timestamp": "2026-01-21T10:47:00.239Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 12022,
+    "timestamp": "2026-01-21T10:47:41.974Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 12799,
+    "timestamp": "2026-01-21T10:47:43.049Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11606,
+    "timestamp": "2026-01-21T10:48:23.642Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11655,
+    "timestamp": "2026-01-21T10:48:24.727Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 14626,
+    "timestamp": "2026-01-21T10:49:08.285Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 15109,
+    "timestamp": "2026-01-21T10:49:10.083Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 17082,
+    "timestamp": "2026-01-21T11:01:11.166Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 13501,
+    "timestamp": "2026-01-21T11:01:55.009Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 13582,
+    "timestamp": "2026-01-21T11:01:55.090Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11501,
+    "timestamp": "2026-01-21T11:02:36.618Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11988,
+    "timestamp": "2026-01-21T11:02:37.071Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 14925,
+    "timestamp": "2026-01-21T11:03:22.240Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 15909,
+    "timestamp": "2026-01-21T11:03:22.535Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 12877,
+    "timestamp": "2026-01-21T11:04:05.360Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 13019,
+    "timestamp": "2026-01-21T11:04:05.562Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 16922,
+    "timestamp": "2026-01-21T11:12:30.534Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 17200,
+    "timestamp": "2026-01-21T11:12:30.749Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9675,
+    "timestamp": "2026-01-21T11:13:10.711Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 12055,
+    "timestamp": "2026-01-21T11:13:12.646Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 14511,
+    "timestamp": "2026-01-21T11:13:55.482Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 25439,
+    "timestamp": "2026-01-21T11:14:08.381Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10148,
+    "timestamp": "2026-01-21T11:14:36.724Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7978,
+    "timestamp": "2026-01-21T11:14:47.505Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 25224,
+    "timestamp": "2026-01-21T11:16:18.421Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 29301,
+    "timestamp": "2026-01-21T11:16:22.380Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 13190,
+    "timestamp": "2026-01-21T11:17:03.127Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10722,
+    "timestamp": "2026-01-21T11:17:04.535Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 16885,
+    "timestamp": "2026-01-21T11:17:55.105Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 18477,
+    "timestamp": "2026-01-21T11:17:57.082Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11691,
+    "timestamp": "2026-01-21T11:18:37.149Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 13217,
+    "timestamp": "2026-01-21T11:18:40.638Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11469,
+    "timestamp": "2026-01-21T11:19:18.999Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11805,
+    "timestamp": "2026-01-21T11:19:22.718Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 12437,
+    "timestamp": "2026-01-21T11:20:03.753Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 13189,
+    "timestamp": "2026-01-21T11:20:06.170Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9970,
+    "timestamp": "2026-01-21T11:20:44.320Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10401,
+    "timestamp": "2026-01-21T11:20:46.597Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7558,
+    "timestamp": "2026-01-21T11:21:22.136Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7872,
+    "timestamp": "2026-01-21T11:22:00.262Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7825,
+    "timestamp": "2026-01-21T11:22:38.100Z"
+  },
+  {
+    "batchSize": 7,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9149,
+    "timestamp": "2026-01-22T04:29:33.423Z"
+  },
+  {
+    "batchSize": 7,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11074,
+    "timestamp": "2026-01-22T04:30:14.524Z"
+  },
+  {
+    "batchSize": 6,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5017,
+    "timestamp": "2026-01-22T04:30:49.911Z"
+  },
+  {
+    "batchSize": 6,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5532,
+    "timestamp": "2026-01-22T04:31:25.458Z"
+  },
+  {
+    "batchSize": 6,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5344,
+    "timestamp": "2026-01-22T04:32:00.815Z"
+  },
+  {
+    "batchSize": 6,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 6590,
+    "timestamp": "2026-01-22T04:32:37.419Z"
+  },
+  {
+    "batchSize": 5,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5104,
+    "timestamp": "2026-01-22T04:33:12.770Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4996,
+    "timestamp": "2026-01-22T04:33:48.054Z"
+  },
+  {
+    "batchSize": 3,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4783,
+    "timestamp": "2026-01-22T04:34:22.855Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 6181,
+    "timestamp": "2026-01-22T06:17:00.741Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4103,
+    "timestamp": "2026-01-22T06:17:34.873Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5368,
+    "timestamp": "2026-01-22T06:18:10.260Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5692,
+    "timestamp": "2026-01-22T06:18:45.957Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5285,
+    "timestamp": "2026-01-22T06:19:21.273Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 6357,
+    "timestamp": "2026-01-22T06:19:57.637Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5143,
+    "timestamp": "2026-01-22T06:20:32.795Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5333,
+    "timestamp": "2026-01-22T06:21:08.141Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5362,
+    "timestamp": "2026-01-22T06:21:43.510Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5498,
+    "timestamp": "2026-01-22T06:22:19.053Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5014,
+    "timestamp": "2026-01-22T06:22:54.090Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4930,
+    "timestamp": "2026-01-22T06:23:29.031Z"
+  },
+  {
+    "batchSize": 2,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5170,
+    "timestamp": "2026-01-22T06:24:04.211Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 6242,
+    "timestamp": "2026-01-22T06:31:12.288Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4261,
+    "timestamp": "2026-01-22T06:31:46.583Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 6298,
+    "timestamp": "2026-01-22T06:32:32.288Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5652,
+    "timestamp": "2026-01-22T06:33:13.914Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4922,
+    "timestamp": "2026-01-22T06:33:48.848Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5053,
+    "timestamp": "2026-01-22T06:34:23.904Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5611,
+    "timestamp": "2026-01-22T06:34:59.584Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5489,
+    "timestamp": "2026-01-22T06:35:35.087Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4944,
+    "timestamp": "2026-01-22T06:36:10.042Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5222,
+    "timestamp": "2026-01-22T06:36:45.318Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4975,
+    "timestamp": "2026-01-22T06:37:20.308Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5174,
+    "timestamp": "2026-01-22T06:37:55.499Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5078,
+    "timestamp": "2026-01-22T06:38:30.592Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5008,
+    "timestamp": "2026-01-22T06:39:05.615Z"
+  },
+  {
+    "batchSize": 4,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5722,
+    "timestamp": "2026-01-22T06:39:41.349Z"
+  },
+  {
+    "batchSize": 2,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5059,
+    "timestamp": "2026-01-22T06:40:16.462Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9096,
+    "timestamp": "2026-01-22T07:44:38.416Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9720,
+    "timestamp": "2026-01-22T07:45:18.430Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7375,
+    "timestamp": "2026-01-22T07:45:56.099Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10946,
+    "timestamp": "2026-01-22T07:46:37.293Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 6178,
+    "timestamp": "2026-01-22T07:47:13.734Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7796,
+    "timestamp": "2026-01-22T08:26:08.656Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7312,
+    "timestamp": "2026-01-22T08:26:42.737Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 6272,
+    "timestamp": "2026-01-22T08:27:19.305Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7930,
+    "timestamp": "2026-01-22T08:27:57.547Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7654,
+    "timestamp": "2026-01-22T08:28:35.452Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7909,
+    "timestamp": "2026-01-22T08:29:13.630Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9630,
+    "timestamp": "2026-01-22T09:13:43.948Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8126,
+    "timestamp": "2026-01-22T09:14:22.084Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9765,
+    "timestamp": "2026-01-22T09:15:02.115Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8931,
+    "timestamp": "2026-01-22T09:15:41.051Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8876,
+    "timestamp": "2026-01-22T09:16:20.186Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8787,
+    "timestamp": "2026-01-22T09:46:13.454Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7330,
+    "timestamp": "2026-01-22T09:46:51.090Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 6216,
+    "timestamp": "2026-01-22T09:47:27.588Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8604,
+    "timestamp": "2026-01-22T09:48:06.452Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7598,
+    "timestamp": "2026-01-22T09:48:44.344Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7512,
+    "timestamp": "2026-01-22T10:24:36.272Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7792,
+    "timestamp": "2026-01-22T10:25:14.377Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7879,
+    "timestamp": "2026-01-22T10:25:52.554Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8858,
+    "timestamp": "2026-01-22T10:26:31.669Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7813,
+    "timestamp": "2026-01-22T10:27:09.762Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9541,
+    "timestamp": "2026-01-22T11:01:52.355Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8315,
+    "timestamp": "2026-01-22T11:02:18.230Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11020,
+    "timestamp": "2026-01-22T11:02:59.518Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8507,
+    "timestamp": "2026-01-22T11:03:38.350Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11092,
+    "timestamp": "2026-01-22T11:04:19.711Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 20152,
+    "timestamp": "2026-01-22T11:05:10.119Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7299,
+    "timestamp": "2026-01-22T11:51:54.572Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8442,
+    "timestamp": "2026-01-22T11:52:33.298Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8793,
+    "timestamp": "2026-01-22T11:53:12.340Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7586,
+    "timestamp": "2026-01-22T11:53:50.194Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7642,
+    "timestamp": "2026-01-22T11:54:28.094Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9109,
+    "timestamp": "2026-01-26T06:59:38.196Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 6410,
+    "timestamp": "2026-01-26T07:00:14.920Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9221,
+    "timestamp": "2026-01-26T07:00:54.394Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8058,
+    "timestamp": "2026-01-26T07:01:32.717Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8165,
+    "timestamp": "2026-01-26T07:02:11.162Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8145,
+    "timestamp": "2026-01-26T07:07:02.471Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8905,
+    "timestamp": "2026-01-26T07:07:41.635Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10327,
+    "timestamp": "2026-01-26T07:08:22.205Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8366,
+    "timestamp": "2026-01-26T07:08:57.743Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8242,
+    "timestamp": "2026-01-26T07:09:36.282Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8187,
+    "timestamp": "2026-01-26T07:10:14.702Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8460,
+    "timestamp": "2026-01-26T07:10:53.179Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7537,
+    "timestamp": "2026-01-26T07:11:30.970Z"
+  }
+]
