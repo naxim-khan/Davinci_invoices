@@ -16,7 +16,7 @@ const CONFIG = {
     BENCHMARK_FILE: join(process.cwd(), 'benchmarks', 'results.json'),
     THREAD_METRICS_FILE: join(process.cwd(), 'benchmarks', 'thread_metrics.json'),
     SEQUENTIAL_MODE: false, // Set to false to test parallel performance
-    TOTAL_SCAN_LIMIT: 0, // Maximum records to attempt in testing. Set to null for unlimited.
+    TOTAL_SCAN_LIMIT: null, // Maximum records to attempt in testing. Set to null for unlimited.
 };
 
 export class FlightDataIngestionService {
