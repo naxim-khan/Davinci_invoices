@@ -311,4 +311,45 @@ export class ConsolidatedInvoiceService {
     ) {
         return this.repository.findByCustomer(customerId, filters);
     }
+
+    /**
+     * Recalculate totals for an existing consolidated invoice
+     * Called when an included invoice is updated
+     */
+    async recalculateConsolidatedInvoiceTotals(consolidatedInvoiceId: number): Promise<void> {
+        try {
+            // 1. Get all invoices for this consolidated invoice
+            const invoices = await this.repository.findInvoicesByConsolidatedId(consolidatedInvoiceId);
+
+            if (invoices.length === 0) {
+                logger.warn({
+                    msg: 'No invoices found for consolidated invoice during recalculation',
+                    consolidatedInvoiceId,
+                });
+                return;
+            }
+
+            // 2. Calculate new totals
+            const totals = await this.repository.calculatePeriodTotals(invoices);
+
+            // 3. Update consolidated invoice
+            await this.repository.updateConsolidatedInvoiceTotals(consolidatedInvoiceId, totals);
+
+            logger.info({
+                msg: 'Recalculated consolidated invoice totals',
+                consolidatedInvoiceId,
+                totalFlights: totals.totalFlights,
+                totalUsd: totals.totalUsd,
+            });
+        } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            logger.error({
+                msg: 'Error recalculating consolidated invoice totals',
+                consolidatedInvoiceId,
+                error: errorMessage,
+                stack: error instanceof Error ? error.stack : undefined,
+            });
+            throw error;
+        }
+    }
 }

@@ -96,10 +96,19 @@ export class ConsolidatedInvoiceRepository {
             // Handle otherFeesAmount which is stored as Json
             if (invoice.otherFeesAmount) {
                 const otherFees = invoice.otherFeesAmount as any;
-                if (typeof otherFees === 'number') {
+                if (Array.isArray(otherFees)) {
+                    // Current database format: [{ "name": "Tax", "amount": 100, "currency": "AED", "amount_usd": 27.23, ... }]
+                    totalOtherUsd += otherFees.reduce((sum: number, item: any) => {
+                        if (item && typeof item === 'object') {
+                            const amount = item.amount_usd || item.amount || 0;
+                            return sum + (typeof amount === 'number' ? amount : 0);
+                        }
+                        return sum;
+                    }, 0);
+                } else if (typeof otherFees === 'number') {
                     totalOtherUsd += otherFees;
                 } else if (typeof otherFees === 'object') {
-                    // Sum all values if it's an object
+                    // Sum all values if it's an object (legacy format)
                     totalOtherUsd += Object.values(otherFees).reduce((sum: number, val: any) => {
                         return sum + (typeof val === 'number' ? val : 0);
                     }, 0);
@@ -234,19 +243,45 @@ export class ConsolidatedInvoiceRepository {
     /**
      * Get consolidated invoice by ID with line items
      */
-    async findById(id: number): Promise<ConsolidatedInvoice | null> {
+    async findById(id: number): Promise<any | null> {
         return prisma.consolidatedInvoice.findUnique({
             where: { id },
-            include: {
+            select: {
+                id: true,
+                invoiceNumber: true,
+                issueDate: true,
+                dueDate: true,
+                billingPeriodStart: true,
+                billingPeriodEnd: true,
+                billedToName: true,
+                billedToAddress: true,
+                totalFlights: true,
+                totalUsd: true,
+                totalFeeUsd: true,
+                totalOtherUsd: true,
+                status: true,
+                qrCodeData: true,
                 ConsolidatedInvoiceLineItem: {
-                    include: {
-                        Invoice: true,
+                    select: {
+                        invoiceId: true,
+                        invoiceNumber: true,
+                        act: true,
+                        date: true,
+                        totalUsd: true,
                     },
                     orderBy: {
                         date: 'asc',
                     },
                 },
-                ClientKYC: true,
+                ClientKYC: {
+                    select: {
+                        beneficiaryName: true,
+                        accountNumberIBAN: true,
+                        bankName: true,
+                        bankAddress: true,
+                        swiftBICCode: true,
+                    },
+                },
             },
         });
     }
@@ -262,7 +297,7 @@ export class ConsolidatedInvoiceRepository {
             status?: string;
             billingPeriodType?: 'WEEKLY' | 'MONTHLY';
         },
-    ): Promise<ConsolidatedInvoice[]> {
+    ): Promise<any[]> {
         const where: Prisma.ConsolidatedInvoiceWhereInput = {
             operatorId,
         };
@@ -282,12 +317,17 @@ export class ConsolidatedInvoiceRepository {
 
         return prisma.consolidatedInvoice.findMany({
             where,
-            include: {
-                ConsolidatedInvoiceLineItem: {
-                    orderBy: {
-                        date: 'asc',
-                    },
-                },
+            select: {
+                id: true,
+                invoiceNumber: true,
+                issueDate: true,
+                dueDate: true,
+                status: true,
+                totalUsd: true,
+                totalFlights: true,
+                billingPeriodStart: true,
+                billingPeriodEnd: true,
+                billedToName: true,
             },
             orderBy: {
                 issueDate: 'desc',
@@ -301,6 +341,48 @@ export class ConsolidatedInvoiceRepository {
     async findCustomerById(id: number): Promise<ClientKYC | null> {
         return prisma.clientKYC.findUnique({
             where: { id },
+        });
+    }
+
+    /**
+     * Find invoices included in a consolidated invoice
+     */
+    async findInvoicesByConsolidatedId(consolidatedInvoiceId: number): Promise<Invoice[]> {
+        return prisma.invoice.findMany({
+            where: {
+                includedInConsolidatedInvoiceId: consolidatedInvoiceId,
+                status: {
+                    not: 'CANCELLED',
+                },
+            },
+        });
+    }
+
+    /**
+     * Update consolidated invoice totals
+     */
+    async updateConsolidatedInvoiceTotals(
+        id: number,
+        totals: {
+            totalFlights: number;
+            totalFeeUsd: number;
+            totalOtherUsd: number;
+            totalUsd: number;
+            firsCrossed: string[];
+            countries: string[];
+        },
+    ): Promise<ConsolidatedInvoice> {
+        return prisma.consolidatedInvoice.update({
+            where: { id },
+            data: {
+                totalFlights: totals.totalFlights,
+                totalFeeUsd: totals.totalFeeUsd,
+                totalOtherUsd: totals.totalOtherUsd,
+                totalUsd: totals.totalUsd,
+                firsCrossed: totals.firsCrossed,
+                countries: totals.countries,
+                updatedAt: new Date(),
+            },
         });
     }
 }

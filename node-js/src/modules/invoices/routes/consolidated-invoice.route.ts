@@ -21,6 +21,13 @@ router.get('/', (req, res) => controller.list(req, res));
 router.get('/:id', (req, res) => controller.getById(req, res));
 
 /**
+ * @route   GET /api/invoices/consolidated/:id/pdf
+ * @desc    Download consolidated invoice PDF
+ * @access  Requires CONSOLIDATED_INVOICE_VIEW permission
+ */
+router.get('/:id/pdf', (req, res) => controller.downloadPdf(req, res));
+
+/**
  * @route   POST /api/invoices/consolidated/generate
  * @desc    Manually trigger consolidated invoice generation
  * @access  Requires CONSOLIDATED_INVOICE_EDIT or SYSTEM_ADMIN permission

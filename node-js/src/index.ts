@@ -14,6 +14,7 @@ import { prisma } from './core/database/prisma.client';
 import { FlightDataIngestionService } from './modules/flights/services/FlightDataIngestionService';
 import { InvoiceOverdueScheduler } from './modules/invoices/services/InvoiceOverdueScheduler';
 import { ConsolidatedInvoiceScheduler } from './modules/invoices/services/ConsolidatedInvoiceScheduler';
+import consolidatedInvoiceRouter from './modules/invoices/routes/consolidated-invoice.route';
 import invoiceRouter from './modules/invoices/routes/invoice.route';
 import { errorHandler } from './common/middleware/error.middleware';
 
@@ -113,6 +114,8 @@ async function bootstrap(): Promise<void> {
         });
 
         // Mount invoice routes
+        // Mount consolidated routes FIRST to avoid collision with /:invoiceId
+        app.use('/api/invoices/consolidated', consolidatedInvoiceRouter);
         app.use('/api/invoices', invoiceRouter);
 
         // Global error handling middleware (must be AFTER all routes)
