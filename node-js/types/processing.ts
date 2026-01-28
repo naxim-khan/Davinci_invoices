@@ -3,17 +3,20 @@ export interface AircraftSummary {
     mtow_kg: number;
     operatorName?: string;
     aircraftModelName?: string;
+    model?: string; // Mapped from Python 'model'
     [key: string]: any;
 }
 
 export interface FeeDetails {
     fee?: number;
     fee_usd?: number;
-    other_fees?: number;
+    other_fees?: number | any[]; // Python returns [] when empty
     other_fees_usd?: number;
     currency?: string;
     fx_rate?: number;
+    fx_rate_usd?: number; // Mapped from Python 'fx_rate_usd'
     calculation_description?: string;
+    total_amount_usd?: number;
 }
 
 export interface ProcessingOutputEntry {

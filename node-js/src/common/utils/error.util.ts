@@ -29,6 +29,30 @@ export class InternalServerError extends Error {
     }
 }
 
+export class ForbiddenError extends Error {
+    statusCode = 403;
+    constructor(message: string) {
+        super(message);
+        this.name = 'ForbiddenError';
+    }
+}
+
+export class NotFoundError extends Error {
+    statusCode = 404;
+    constructor(message: string) {
+        super(message);
+        this.name = 'NotFoundError';
+    }
+}
+
+export class ExternalServiceError extends Error {
+    statusCode = 502;
+    constructor(message: string) {
+        super(message);
+        this.name = 'ExternalServiceError';
+    }
+}
+
 /**
  * Logger Interface
  */

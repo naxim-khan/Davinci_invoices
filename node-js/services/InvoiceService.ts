@@ -43,7 +43,7 @@ export type CreateInvoiceInput = {
   // Fee breakdown / FX (Q–V)
   feeDescription?: string;
   feeAmount?: number;
-  otherFeesAmount?: number;
+  otherFeesAmount?: any; // Changed from number to any to handle JSON array from Python
   totalOriginalAmount?: number;
   originalCurrency?: string;
   fxRate?: number;
@@ -835,7 +835,7 @@ export class InvoiceService {
     // We need to sync to Sage FIRST before updating the database
     // Create a copy of existing invoice and apply updates
     const updatedInvoiceData = { ...existingInvoice } as Invoice;
-    
+
     // Apply all updates from data to the invoice copy
     if (data.issueDate !== undefined) updatedInvoiceData.issueDate = data.issueDate;
     if (data.dueDate !== undefined) updatedInvoiceData.dueDate = data.dueDate;
@@ -889,18 +889,18 @@ export class InvoiceService {
       } catch (error: unknown) {
         // If Sage sync fails, throw error to prevent database update
         console.error(`Failed to sync Invoice ${id} to Sage:`, error);
-        
+
         // Re-throw ExternalServiceError as-is (error handler will clean it)
         if (error instanceof ExternalServiceError) {
           throw error;
         }
-        
+
         // For other errors, wrap in ExternalServiceError
         const errorMsg =
           error && typeof error === 'object' && 'message' in error
             ? String(error.message)
             : 'Unable to update invoice in Sage';
-        throw new ExternalServiceError('Sage', errorMsg);
+        throw new ExternalServiceError(`Sage: ${errorMsg}`);
       }
     }
 
@@ -913,9 +913,9 @@ export class InvoiceService {
     // Check if invoice is part of any PENDING consolidated invoice and update it
     if (invoice.includedInConsolidatedInvoiceId) {
       try {
-        const { default: ConsolidatedInvoiceGenerationService } =
-          await import('./ConsolidatedInvoiceGenerationService');
-        const generationService = new ConsolidatedInvoiceGenerationService();
+        const { ConsolidatedInvoiceService } =
+          await import('../src/modules/invoices/services/ConsolidatedInvoiceService');
+        const generationService = new ConsolidatedInvoiceService();
         await generationService.recalculateConsolidatedInvoiceTotals(
           invoice.includedInConsolidatedInvoiceId,
         );
@@ -1029,18 +1029,18 @@ export class InvoiceService {
       } catch (error: unknown) {
         // If Sage sync fails, throw error to prevent status update
         console.error(`Failed to sync Invoice ${id} to Sage:`, error);
-        
+
         // Re-throw ExternalServiceError as-is (error handler will clean it)
         if (error instanceof ExternalServiceError) {
           throw error;
         }
-        
+
         // For other errors, wrap in ExternalServiceError
         const errorMsg =
           error && typeof error === 'object' && 'message' in error
             ? String(error.message)
             : 'Unable to update invoice status in Sage';
-        throw new ExternalServiceError('Sage', errorMsg);
+        throw new ExternalServiceError(`Sage: ${errorMsg}`);
       }
     }
 
@@ -1053,18 +1053,18 @@ export class InvoiceService {
       } catch (error: unknown) {
         // If Sage cancellation fails, throw error to prevent status update
         console.error(`Failed to cancel Invoice ${id} in Sage:`, error);
-        
+
         // Re-throw ExternalServiceError as-is (error handler will clean it)
         if (error instanceof ExternalServiceError) {
           throw error;
         }
-        
+
         // For other errors, wrap in ExternalServiceError
         const errorMsg =
           error && typeof error === 'object' && 'message' in error
             ? String(error.message)
             : 'Unable to cancel invoice in Sage';
-        throw new ExternalServiceError('Sage', errorMsg);
+        throw new ExternalServiceError(`Sage: ${errorMsg}`);
       }
     }
 
@@ -1103,15 +1103,15 @@ export class InvoiceService {
     const route =
       invoice.originIcao || invoice.originIata || invoice.destinationIcao || invoice.destinationIata
         ? {
-            origin: {
-              icao: invoice.originIcao || '',
-              iata: invoice.originIata || '',
-            },
-            destination: {
-              icao: invoice.destinationIcao || '',
-              iata: invoice.destinationIata || '',
-            },
-          }
+          origin: {
+            icao: invoice.originIcao || '',
+            iata: invoice.originIata || '',
+          },
+          destination: {
+            icao: invoice.destinationIcao || '',
+            iata: invoice.destinationIata || '',
+          },
+        }
         : undefined;
 
     // Build line item with optional route

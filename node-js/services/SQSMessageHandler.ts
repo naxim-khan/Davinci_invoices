@@ -10,7 +10,11 @@ import InvoiceService from './InvoiceService';
 import InvoiceErrorService from './InvoiceErrorService';
 import { InvoiceStatus, ErrorStatus } from '@prisma/client';
 import S3Service from './S3Service';
-import { ProcessingOutputEntry, ProcessingError } from '../types/processing';
+import {
+  ProcessingOutputEntry,
+  ProcessingError,
+} from '../types/processing'; // Import FeeDetails
+import { prisma } from '../src/core/database/prisma.client'; // Import prisma for database access
 
 interface FlightMessage {
   flightId: string;
@@ -110,10 +114,11 @@ export class SQSMessageHandler {
         // Parse positions field if it exists and is a string
         if (flightData.positions && typeof flightData.positions === 'string') {
           try {
-            flightData.positions = JSON.parse(flightData.positions);
-            logger.info(`Parsed ${flightData.positions.length} positions for flight ${flightId}`);
+            const parsedPositions = JSON.parse(flightData.positions);
+            flightData.positions = parsedPositions;
+            logger.info(`Parsed ${(flightData.positions as any[]).length} positions for flight ${flightId}`);
           } catch (parseError) {
-            logger.error(`Failed to parse positions field for flight ${flightId}:`, parseError);
+            logger.error(parseError as Error, `Failed to parse positions field for flight ${flightId}:`);
             flightData.positions = [];
           }
         }
@@ -148,7 +153,7 @@ export class SQSMessageHandler {
 
       // Log first position as sample
       if (normalizedFlightData.positions.length > 0) {
-        logger.info(`Sample position:`, normalizedFlightData.positions[0]);
+        logger.info(normalizedFlightData.positions[0], `Sample position:`);
       }
     }
 
@@ -194,8 +199,10 @@ export class SQSMessageHandler {
         }
 
         // Create invoices for successful output entries
+        // Create invoices for successful output entries
         if (processingResult.output_entries && processingResult.output_entries.length > 0) {
-          await this.createInvoicesFromOutputEntries(processingResult.output_entries);
+          const invoices = await this.createInvoicesFromOutputEntries(processingResult.output_entries);
+          await this.saveInvoicesToFile(String(normalizedFlightData.flightId), invoices);
         }
 
         // Create invoices for errors (even when success is true, there might be data quality errors)
@@ -327,9 +334,10 @@ export class SQSMessageHandler {
   /**
    * Create invoices from successful output entries
    */
-  private async createInvoicesFromOutputEntries(outputEntries: ProcessingOutputEntry[]): Promise<void> {
+  private async createInvoicesFromOutputEntries(outputEntries: ProcessingOutputEntry[]): Promise<any[]> {
     const issueDate = new Date(); // Current date as issue date
     const dueDate = this.calculateDueDate(issueDate);
+    const createdInvoices: any[] = [];
 
     for (const entry of outputEntries) {
       try {
@@ -357,73 +365,94 @@ export class SQSMessageHandler {
               mapHtmlUrl = filePath; // Assume it's already a URL
             }
           } catch (uploadError: any) {
-            logger.error(`Failed to upload mapHtml to S3: ${uploadError.message}`, {
+            logger.error({
               filePath: entry.map_html,
-            });
+            }, `Failed to upload mapHtml to S3: ${uploadError.message}`);
             // Fallback to original path/URL
             mapHtmlUrl = entry.map_html;
           }
         }
 
-        logger.info(`Creating invoice from output entry: ${entry}`);
-        const invoiceData = {
+        logger.info(`Creating invoice from output entry for flight ${entry.flight_id}, country ${entry.country}`);
+        const invoiceData: any = {
           issueDate,
-          dueDate,
-          status: InvoiceStatus.DRAFT,
+          dueDate, // Ensure dueDate is passed here
+          status: InvoiceStatus.PENDING,
           flightId: entry.flight_id,
 
           // Customer info (B-C)
-          clientName: entry.aircraft_data?.operatorName || 'Unknown Operator',
-          // Address from client DB - N/A for now, so leaving optional fields empty
+          clientName:
+            entry.aircraft_data?.operatorName || entry.aircraft_data?.ownerName || 'Unknown Operator',
+          clientAddress: null, // Address not available in output yet
 
           // Flight / FIR metadata (F-P)
           mapHtml: mapHtmlUrl,
-          flightNumber: entry.flight_data?.cs || undefined,
+          flightNumber: entry.flight_data?.cs || entry.flight_data?.ident || 'Unknown',
           originIcao: entry.takeoff_airport_icao || undefined,
           destinationIcao: entry.landing_airport_icao || undefined,
           originIata: entry.takeoff_airport_iata || undefined,
           destinationIata: entry.landing_airport_iata || undefined,
           registrationNumber: entry.aircraft_data?.registration || undefined,
-          aircraftModelName: entry.aircraft_data?.aircraftModelName || undefined,
+          aircraftModelName:
+            entry.aircraft_data?.aircraftModelName || entry.aircraft_data?.model || null, // Map from model if available
           act: entry.act || entry.flight_data?.act || undefined, // Aircraft Type ICAO code
           modeSHex: entry.flight_data?.ms || undefined, // Mode S hex code
           alic: entry.flight_data?.alic || undefined, // Aircraft License ICAO code
-          flightDate: entry.flight_date ? new Date(entry.flight_date) : undefined,
+          flightDate: entry.flight_date ? new Date(entry.flight_date) : new Date(issueDate),
           firName: entry.fir_label || entry.fir_name || undefined,
           firCountry: entry.country || undefined,
           firEntryTimeUtc: entry.earliest_entry_time
             ? new Date(entry.earliest_entry_time)
-            : undefined,
-          firExitTimeUtc: entry.latest_exit_time ? new Date(entry.latest_exit_time) : undefined,
+            : null,
+          firExitTimeUtc: entry.latest_exit_time ? new Date(entry.latest_exit_time) : null,
 
           // Fee breakdown / FX (Q-V)
           feeDescription: entry.fee_details?.calculation_description || undefined,
           feeAmount: entry.fee_details?.fee || undefined,
-          otherFeesAmount: entry.fee_details?.other_fees || undefined,
+          otherFeesAmount: entry.fee_details?.other_fees || [], // Pass the array directly (handled as 'any' in Service)
           totalOriginalAmount:
             entry.fee_details?.fee && entry.fee_details?.other_fees !== undefined
-              ? entry.fee_details.fee + (entry.fee_details.other_fees || 0)
+              ? entry.fee_details.fee +
+              (Array.isArray(entry.fee_details.other_fees) ? 0 : entry.fee_details.other_fees || 0)
               : undefined,
           originalCurrency: entry.fee_details?.currency || undefined,
-          fxRate: entry.fee_details?.fx_rate || undefined,
+          fxRate: entry.fee_details?.fx_rate || entry.fee_details?.fx_rate_usd || undefined, // Map fx_rate_usd
           totalUsdAmount:
-            entry.fee_details?.fee_usd && entry.fee_details?.other_fees_usd !== undefined
-              ? entry.fee_details.fee_usd + (entry.fee_details.other_fees_usd || 0)
+            entry.fee_details?.total_amount_usd !== undefined
+              ? Number(entry.fee_details.total_amount_usd)
               : undefined,
+
+          // Check for existing invoice to determine replacment/revision status
+          // (Logic simpler here: new invoices are distinct)
+          currentRevisionNumber: 0,
+          revisionRequired: false,
+          isReplacement: false,
+          originalInvoiceId: null,
+          replacementSuffix: null,
         };
 
+        // Lookup Operator ID (ClientKYC)
+        // Try looking up by ibaId (if we had it) or exact name match
+        // For now, simple name match or null
+        const operatorId = await this.lookupOperatorId(invoiceData.clientName);
+        if (operatorId) {
+          invoiceData.operatorId = operatorId;
+        }
+
         const invoice = await InvoiceService.create(invoiceData);
+        createdInvoices.push(invoice);
         logger.info(
           `✓ Created invoice ${invoice.invoiceNumber} for flight ${entry.flight_data?.cs || 'unknown'} - ${entry.country}`,
         );
       } catch (error: any) {
-        logger.error(`Failed to create invoice for output entry: ${error.message}`, {
+        logger.error({
           entry: entry.country,
           flightId: entry.flight_id,
-        });
+        }, `Failed to create invoice for output entry: ${error.message}`);
         // Continue with other entries even if one fails
       }
     }
+    return createdInvoices;
   }
 
   /**
@@ -492,6 +521,67 @@ export class SQSMessageHandler {
         }, `Failed to create invoice for error entry: ${error.message}`);
         // Continue with other errors even if one fails
       }
+    }
+  }
+
+  /**
+   * Helper to look up operator ID from ClientKYC table
+   */
+  private async lookupOperatorId(clientName: string): Promise<number | null> {
+    if (!clientName || clientName === 'Unknown Operator') return null;
+
+    try {
+      // Try exact name match first
+      const client = await prisma.clientKYC.findFirst({
+        where: {
+          OR: [
+            {
+              fullLegalNameEntity: {
+                equals: clientName,
+                mode: 'insensitive',
+              },
+            },
+            {
+              tradingBrandName: {
+                equals: clientName,
+                mode: 'insensitive',
+              },
+            },
+          ],
+        },
+        select: { id: true },
+      });
+
+      return client?.id || null;
+    } catch (error) {
+      console.warn(`Failed to lookup operator ID for ${clientName}`, error);
+      return null;
+    }
+  }
+
+  /**
+   * Save invoices to a JSONL file
+   */
+  private async saveInvoicesToFile(flightId: string, invoices: any[]): Promise<void> {
+    try {
+      await this.ensureOutputDir();
+      const filename = 'sqs.json';
+      const filepath = path.join(this.outputDir, filename);
+
+      // Create a record with flightId and invoices
+      const record = {
+        flightId,
+        timestamp: new Date().toISOString(),
+        invoices: invoices
+      };
+
+      await fs.appendFile(filepath, JSON.stringify(record, (_key, value) =>
+        typeof value === 'bigint' ? value.toString() : value
+      ) + '\n', 'utf-8');
+
+      logger.info(`✓ Saved invoices to: ${filepath}`);
+    } catch (error: any) {
+      logger.error(`Failed to save invoices: ${error.message}`);
     }
   }
 

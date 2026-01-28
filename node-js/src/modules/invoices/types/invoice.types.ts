@@ -44,4 +44,9 @@ export interface InvoicePdfDataResponse {
     alic: string | null;
     operatorId: number | null;
     includedInConsolidatedInvoiceId: number | null;
+    isReplacement: boolean; // default false
+    revisionRequired: boolean; // default false
+    currentRevisionNumber: number; // default 0
+    originalInvoiceId: number | null;
+    replacementSuffix: number | null;
 }

@@ -105,6 +105,11 @@ export class InvoiceService {
             operatorId: invoice.operatorId ?? null,
             includedInConsolidatedInvoiceId: invoice.includedInConsolidatedInvoiceId ?? null,
             invoiceTemplate: invoice.invoiceTemplate ?? null,
+            isReplacement: invoice.isReplacement ?? false,
+            revisionRequired: invoice.revisionRequired ?? false,
+            currentRevisionNumber: invoice.currentRevisionNumber ?? 0,
+            originalInvoiceId: invoice.originalInvoiceId ?? null,
+            replacementSuffix: invoice.replacementSuffix ?? null,
         };
     }
 }

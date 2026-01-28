@@ -14,7 +14,7 @@ export class FlightProcessingService {
   private useTestFile: boolean;
 
   constructor(useTestFile: boolean = true) {
-    this.pythonScriptDir = path.join(process.cwd(), 'davinci-stream-processing');
+    this.pythonScriptDir = path.join(process.cwd(), '..', 'davinci-stream');
     this.outputDir = path.join(this.pythonScriptDir, 'output_htmls');
     this.flightDataDir = path.join(process.cwd(), 'data', 'flight-inputs');
     this.useTestFile = useTestFile;
@@ -219,7 +219,15 @@ except Exception as e:
         }
 
         try {
-          const result = JSON.parse(stdout) as ProcessFlightResult;
+          // Python may print status messages before JSON output
+          // Extract only the JSON part (from first '{' to end)
+          const jsonStart = stdout.indexOf('{');
+          if (jsonStart === -1) {
+            throw new Error('No JSON object found in Python output');
+          }
+          const jsonOutput = stdout.substring(jsonStart);
+
+          const result = JSON.parse(jsonOutput) as ProcessFlightResult;
           logger.info({
             success: result.success,
             outputEntriesCount: result.output_entries?.length || 0,
