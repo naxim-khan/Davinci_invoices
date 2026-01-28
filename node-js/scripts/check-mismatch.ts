@@ -18,8 +18,8 @@ async function checkInvoicesAndOperators() {
 
         console.log('\n--- ClientKYC Table Content ---');
         const clients = await pool.query('SELECT * FROM "ClientKYC"');
-        console.log(`Actual ClientKYC count: ${clients.rowCount}`);
-        if (clients.rowCount > 0) {
+        console.log(`Actual ClientKYC count: ${clients.rowCount ?? 0}`);
+        if ((clients.rowCount ?? 0) > 0) {
             console.table(clients.rows.map(r => ({
                 id: r.id,
                 name: r.fullLegalNameEntity,

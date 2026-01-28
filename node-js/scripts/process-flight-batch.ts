@@ -18,7 +18,7 @@
 process.env.NODE_NO_WARNINGS = '1';
 
 import 'dotenv/config';
-import { writeFile, mkdir } from 'fs/promises';
+import { writeFile, mkdir, appendFile } from 'fs/promises';
 import { join } from 'path';
 import { prisma } from '../src/core/database/prisma.client';
 import { logError, toAppError, getErrorMessage } from '../src/common/utils/error.util';
@@ -363,6 +363,7 @@ async function processSingleFlight(
 
         if (processedResult.output_entries && processedResult.output_entries.length > 0) {
             const entries = processedResult.output_entries as unknown as OutputEntry[];
+            const createdInvoices: any[] = [];
             try {
                 for (const entry of entries) {
                     // Align clientName resolution with SQSMessageHandler fallback pattern
@@ -381,13 +382,15 @@ async function processSingleFlight(
                     const feeDetails = entry.fee_details as any || {};
                     const feeAmount = feeDetails.fee ?? (entry as any).fee_amount ?? null;
                     const otherFeesAmount = feeDetails.other_fees ?? null;
-                    const totalOriginalAmount = feeAmount !== null ? (feeAmount + (otherFeesAmount || 0)) : null;
-                    const totalUsdAmount = feeDetails.fee_usd !== null && feeDetails.other_fees_usd !== undefined
-                        ? (feeDetails.fee_usd + (feeDetails.other_fees_usd || 0))
-                        : (entry as any).total_fee_usd || null;
+                    const totalOriginalAmount = feeAmount !== null ? Number(feeAmount) + Number(otherFeesAmount || 0) : null;
+                    const totalUsdAmount = feeDetails.total_amount_usd
+                        ? Number(feeDetails.total_amount_usd)
+                        : feeDetails.fee_usd !== null
+                            ? Number(feeDetails.fee_usd) + Number(feeDetails.other_fees_usd || 0)
+                            : (entry as any).total_fee_usd ? Number((entry as any).total_fee_usd) : null;
 
                     // Create invoice directly with Prisma using standardized fields
-                    await prisma.invoice.create({
+                    const invoice = await prisma.invoice.create({
                         data: {
                             invoiceNumber: generateInvoiceNumber(),
                             flightId: flightId,
@@ -419,15 +422,47 @@ async function processSingleFlight(
 
                             // Fee breakdown / FX (Q-V)
                             feeDescription: feeDetails.calculation_description || (entry as any).fee_description || null,
-                            feeAmount: feeAmount,
+                            feeAmount: feeAmount !== null ? Number(feeAmount) : null,
                             otherFeesAmount: otherFeesAmount,
                             totalOriginalAmount: totalOriginalAmount,
                             originalCurrency: feeDetails.currency || (entry as any).original_currency || null,
-                            fxRate: feeDetails.fx_rate || (entry as any).fx_rate || null,
+                            fxRate: feeDetails.fx_rate ? Number(feeDetails.fx_rate) : ((entry as any).fx_rate ? Number((entry as any).fx_rate) : null),
                             totalUsdAmount: totalUsdAmount,
                         },
                     });
+                    createdInvoices.push(invoice);
                     invoicesCreated++;
+                }
+
+                // Save invoices to sqs.json for consistency/debugging
+                try {
+                    const outputDir = join(process.cwd(), 'data', 'processed-flights');
+                    await mkdir(outputDir, { recursive: true });
+                    const filepath = join(outputDir, 'sqs.json');
+
+                    const record = {
+                        flightId: flightIdStr,
+                        timestamp: new Date().toISOString(),
+                        invoices: createdInvoices
+                    };
+
+                    await appendFile(filepath, JSON.stringify(record, (_key, value) =>
+                        typeof value === 'bigint' ? value.toString() : value
+                    ) + '\n', 'utf-8');
+                    logger.success(`Saved items to: ${filepath}`);
+                } catch (saveError) {
+                    logger.warn(`Failed to save items to file: ${getErrorMessage(saveError)}`);
+                }
+
+                // Save flight data to flights.jsonl (mirroring SQSMessageHandler)
+                try {
+                    const outputDir = join(process.cwd(), 'data', 'processed-flights');
+                    const filepath = join(outputDir, 'flights.jsonl');
+                    const jsonLine = JSON.stringify(flightData);
+                    await appendFile(filepath, jsonLine + '\n', 'utf-8');
+                    logger.success(`Saved flight data to: ${filepath}`);
+                } catch (saveError) {
+                    logger.warn(`Failed to save flight data to file: ${getErrorMessage(saveError)}`);
                 }
 
                 logger.success(`Created ${invoicesCreated} invoice(s)`);
@@ -580,17 +615,8 @@ async function main(): Promise<void> {
         // Ensure directories exist
         await ensureDirectories();
 
-        // Pre-flight validation: Check Python environment before fetching any data
-        logger.info('Performing pre-flight environment validation...');
-        const service = new FlightProcessingService(false);
-        try {
-            await service.validateEnvironment();
-            logger.success('Environment validation passed');
-        } catch (validationError: any) {
-            logger.error(`Critical: Environment validation failed: ${validationError.message}`);
-            logger.error('Aborting batch processing to prevent partial failures.');
-            process.exit(1);
-        }
+        // Note: Environment validation removed as FlightProcessingService doesn't have validateEnvironment method
+        // The Python environment will be tested when the first flight is processed
 
         let batchNumber = 1;
         let totalProcessed = 0;

@@ -40,6 +40,7 @@ async function main(): Promise<void> {
             },
             select: {
                 id: true,
+                flightId: true,
                 clientName: true,
             },
             orderBy: {
@@ -51,8 +52,8 @@ async function main(): Promise<void> {
             console.log('No invoices created today.');
         } else {
             console.log('Today\'s Invoices:');
-            invoices.forEach(inv => {
-                console.log(`${inv.id} | ${inv.clientName || 'Unknown'}`);
+            invoices.forEach(invoice => { // Changed inv to invoice
+                console.log(`${invoice.id} | Flight: ${invoice.flightId} | ${invoice.clientName || 'Unknown'}`); // Updated log format
             });
         }
 
