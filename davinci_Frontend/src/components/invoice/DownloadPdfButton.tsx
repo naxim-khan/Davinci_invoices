@@ -4,7 +4,7 @@ import type { Invoice } from '../../types/invoice';
 interface DownloadPdfButtonProps {
     invoice: Invoice;
     className?: string;
-    variant?: 'emerald' | 'blue' | 'red' | 'gold'; // Basic theme support
+    variant?: 'emerald' | 'blue' | 'red' | 'gold' | 'white'; // Basic theme support
 }
 
 export function DownloadPdfButton({ invoice, className = '', variant = 'emerald' }: DownloadPdfButtonProps) {
@@ -53,6 +53,7 @@ export function DownloadPdfButton({ invoice, className = '', variant = 'emerald'
         blue: "bg-white text-blue-900 hover:bg-blue-50 border-blue-100",
         red: "bg-white text-red-700 hover:bg-red-50 border-red-100",
         gold: "bg-blue-950 text-yellow-500 hover:bg-blue-900 border-yellow-600",
+        white: "bg-white text-slate-900 hover:bg-slate-50 border-slate-200",
     };
 
     const baseClasses = "print:hidden group relative px-6 py-2.5 rounded-xl font-bold transition-all duration-200 border shadow-sm hover:shadow-md active:scale-95 cursor-pointer flex items-center gap-2 disabled:opacity-75 disabled:cursor-not-allowed";

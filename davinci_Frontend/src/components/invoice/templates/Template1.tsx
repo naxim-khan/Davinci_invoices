@@ -1,5 +1,6 @@
 import type { Invoice } from '../../../types/invoice';
-import { getStatusColor, formatDate } from '../../../utils/formatters';
+import { getStatusColor, formatDate, calculateTotalOtherFees } from '../../../utils/formatters';
+import { formatOtherFeesBreakdown } from '../../../utils/invoiceHelpers';
 import airplaneImage from '../../../assets/airplane_davinci.png';
 import { MapSection } from '../MapSection';
 
@@ -13,6 +14,14 @@ interface TemplateProps {
 
 export function Template1({ invoice }: TemplateProps) {
     const feeDetails = invoice.feeDescription ? invoice.feeDescription.split(',').map(s => s.trim()) : [];
+    const otherFeesBreakdown = formatOtherFeesBreakdown(invoice.otherFeesAmount);
+
+    // Calculate subtotal if totalOriginalAmount is 0
+    const totalOtherFees = calculateTotalOtherFees(invoice.otherFeesAmount);
+    const calculatedSubtotal = (invoice.feeAmount || 0) + totalOtherFees;
+    const displaySubtotal = invoice.totalOriginalAmount && invoice.totalOriginalAmount > 0
+        ? invoice.totalOriginalAmount
+        : calculatedSubtotal;
 
     // Helper for safe display
     const display = (value: any) => {
@@ -99,11 +108,9 @@ export function Template1({ invoice }: TemplateProps) {
                 </div>
 
                 {/* Map - No Border, Grayscale container background */}
-                {invoice.mapHtml && (
-                    <div data-map-section="true" className="w-full bg-gray-100 p-0">
-                        <MapSection mapHtml={invoice.mapHtml} />
-                    </div>
-                )}
+                <div data-map-section="true" className="w-full bg-gray-100 p-0">
+                    <MapSection mapHtml={invoice.mapHtml} />
+                </div>
 
                 {/* Flight Data - Minimalist Rows with Red Bullets */}
                 <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
@@ -180,15 +187,42 @@ export function Template1({ invoice }: TemplateProps) {
                             </div>
                         </div>
 
-                        {/* Always show "Other Services" */}
-                        <div className="flex justify-between text-sm text-gray-600 px-6">
-                            <span>Other Services</span>
-                            <span className="font-mono font-bold">${displayCurrency(invoice.otherFeesAmount || 0)}</span>
-                        </div>
+                        {/* Other Services - Detailed Breakdown */}
+                        {otherFeesBreakdown.length > 0 ? (
+                            <div className="px-6 space-y-3">
+                                <p className="text-xs font-bold text-gray-400 uppercase mb-2">Other Services</p>
+                                {otherFeesBreakdown.map((fee, idx) => (
+                                    <div key={idx} className="space-y-1">
+                                        <div className="flex justify-between items-start text-sm">
+                                            <span className="flex items-start gap-2 flex-1">
+                                                <span className="text-red-400 mt-1">•</span>
+                                                <div>
+                                                    <p className="font-bold text-gray-900">{fee.label}</p>
+                                                    {fee.description && (
+                                                        <p className="text-xs text-gray-500 mt-0.5">{fee.description}</p>
+                                                    )}
+                                                </div>
+                                            </span>
+                                            <div className="text-right ml-3">
+                                                <p className="font-mono font-bold text-red-600">${fee.amount.toFixed(2)}</p>
+                                                {fee.originalAmount && fee.currency && fee.currency !== 'USD' && (
+                                                    <p className="text-xs text-gray-500">{fee.currency} {fee.originalAmount.toFixed(2)}</p>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : calculateTotalOtherFees(invoice.otherFeesAmount) > 0 ? (
+                            <div className="flex justify-between text-sm text-gray-600 px-6">
+                                <span>Other Services</span>
+                                <span className="font-mono font-bold">${displayCurrency(calculateTotalOtherFees(invoice.otherFeesAmount))}</span>
+                            </div>
+                        ) : null}
 
                         <div className="flex justify-between text-sm text-gray-500 italic px-6">
                             <span>Subtotal ({invoice.originalCurrency || 'USD'})</span>
-                            <span>{displayCurrency(invoice.totalOriginalAmount, invoice.originalCurrency)}</span>
+                            <span>{displayCurrency(displaySubtotal, invoice.originalCurrency)}</span>
                         </div>
                         {invoice.fxRate && (
                             <div className="text-right text-xs text-gray-400 px-6">

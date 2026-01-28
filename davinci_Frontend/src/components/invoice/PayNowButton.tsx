@@ -3,7 +3,7 @@ import type { Invoice } from '../../types/invoice';
 interface PayNowButtonProps {
     invoice: Invoice;
     className?: string;
-    variant?: 'green' | 'blue' | 'red' | 'gold';
+    variant?: 'green' | 'blue' | 'red' | 'gold' | 'white';
 }
 
 export function PayNowButton({ invoice, className = '', variant = 'green' }: PayNowButtonProps) {
@@ -15,6 +15,7 @@ export function PayNowButton({ invoice, className = '', variant = 'green' }: Pay
         blue: 'bg-blue-600 text-white border-blue-700 hover:bg-blue-700',
         red: 'bg-red-600 text-white border-red-700 hover:bg-red-700',
         gold: 'bg-yellow-500 text-blue-950 border-yellow-600 hover:bg-yellow-400',
+        white: 'bg-white text-slate-900 border-slate-200 hover:bg-slate-50',
     };
 
     const selectedStyle = styles[variant] || styles.green;

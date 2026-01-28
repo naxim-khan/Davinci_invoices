@@ -1,5 +1,6 @@
 import type { Invoice } from '../../../types/invoice';
-import { getStatusColor, formatDate } from '../../../utils/formatters';
+import { getStatusColor, formatDate, calculateTotalOtherFees } from '../../../utils/formatters';
+import { formatOtherFeesBreakdown } from '../../../utils/invoiceHelpers';
 import airplaneImage from '../../../assets/airplane_davinci.png';
 import { MapSection } from '../MapSection';
 
@@ -13,6 +14,14 @@ interface TemplateProps {
 
 export function Template3({ invoice }: TemplateProps) {
     const feeDetails = invoice.feeDescription ? invoice.feeDescription.split(',').map(s => s.trim()) : [];
+    const otherFeesBreakdown = formatOtherFeesBreakdown(invoice.otherFeesAmount);
+
+    // Calculate subtotal if totalOriginalAmount is 0
+    const totalOtherFees = calculateTotalOtherFees(invoice.otherFeesAmount);
+    const calculatedSubtotal = (invoice.feeAmount || 0) + totalOtherFees;
+    const displaySubtotal = invoice.totalOriginalAmount && invoice.totalOriginalAmount > 0
+        ? invoice.totalOriginalAmount
+        : calculatedSubtotal;
 
     // Helper for safe display
     const display = (value: any) => {
@@ -32,12 +41,12 @@ export function Template3({ invoice }: TemplateProps) {
     };
 
     return (
-        <div className="font-serif text-gray-900 bg-white min-h-screen">
-            {/* KL HEADER: Royal, Stacked Layout (Red Top, Blue Main) */}
-            <div className="bg-gradient-to-r from-red-700 to-red-600 h-3 w-full shadow-md"></div>
-            <div className="relative bg-gradient-to-r from-blue-950 to-blue-900 text-white px-8 py-8 overflow-hidden shadow-lg">
-                {/* Flight Image - Positioned slightly differently */}
-                <div className="absolute right-0 -bottom-16 w-96 h-96 opacity-20 pointer-events-none z-0 mix-blend-screen print:opacity-20">
+        <div className="font-sans text-slate-800 bg-white min-h-screen selection:bg-blue-50">
+            {/* Professional Header - KL Theme Integrated */}
+            <div className="bg-gradient-to-r from-red-700 to-red-600 h-2 w-full"></div>
+            <div className="relative bg-gradient-to-r from-blue-950 to-blue-900 pt-12 pb-10 px-10 border-b-4 border-yellow-500 overflow-hidden shadow-lg">
+                {/* Flight Image Watermark */}
+                <div className="absolute right-0 -bottom-24 w-96 h-96 opacity-10 pointer-events-none z-0 mix-blend-screen">
                     <img
                         src={airplaneImage}
                         alt=""
@@ -50,184 +59,278 @@ export function Template3({ invoice }: TemplateProps) {
                 </div>
 
                 {/* PDF Download Button - Absolute Positioned */}
-                <div className="absolute top-6 right-6 z-20 print:hidden">
-                    <DownloadPdfButton invoice={invoice} variant="gold" />
+                <div className="absolute top-6 right-10 z-20 print:hidden flex gap-4">
+                    <DownloadPdfButton invoice={invoice} variant="white" />
                 </div>
-                {/* QR removed from header; will render inside client card */}
 
-                <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-                    <div>
+                <div className="relative z-10 flex justify-between items-center text-white">
+                    <div className="flex flex-col items-start gap-4">
+                        <img
+                            src="/assets/logo.png"
+                            alt="DaVinci Aero Systems"
+                            className="h-14 w-auto brightness-0 invert object-contain"
+                        />
                         <div className="flex items-center gap-3">
-                            {/* Gold Circle Logo */}
-                            <div className="w-14 h-14 rounded-full border-2 border-yellow-500 flex items-center justify-center bg-blue-950">
-                                <svg className="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <h1 className="text-3xl font-serif text-yellow-500 tracking-widest uppercase">Davinci</h1>
-                                <p className="text-blue-200 text-[10px] uppercase tracking-[0.3em]">Imperial Aviation Billing</p>
-                            </div>
+                            <span className="bg-yellow-500 text-slate-900 text-[10px] font-black px-2 py-0.5 uppercase tracking-widest rounded">Imperial Record</span>
+                            <span className="text-blue-300 text-[10px] font-bold uppercase tracking-widest opacity-80">• Regional Operations</span>
                         </div>
                     </div>
-                    <div className="text-right space-y-2 flex flex-col items-end pt-4">
-                        <div className="inline-block border border-yellow-500 px-3 py-1">
-                            <span className="block text-yellow-500 text-[10px] uppercase font-bold tracking-widest">Invoice Number</span>
-                            <span className="block text-xl font-bold text-white leading-none">#{display(invoice.invoiceNumber)}</span>
-                        </div>
-                        <div className="flex justify-end items-center gap-2 mt-1">
-                            <span className="text-blue-300 text-[10px]">STATUS:</span>
-                            <span className={`text-[10px] font-bold uppercase px-2 py-0.5 ${getStatusColor(invoice.status)} bg-white text-blue-900`}>
-                                {display(invoice.status)}
-                            </span>
+                    <div className="text-right flex flex-col items-end gap-1">
+                        <div className="px-6 py-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-xl">
+                            <p className="text-[10px] font-black text-blue-200 uppercase tracking-widest mb-1 opacity-60">System ID</p>
+                            <p className="text-2xl font-black tracking-tight leading-none">{display(invoice.invoiceNumber)}</p>
+                            <div className="mt-3 text-right">
+                                <span className={`inline-block text-[10px] font-black uppercase px-2 py-0.5 rounded ${getStatusColor(invoice.status)} ring-1 ring-white/10`}>
+                                    {display(invoice.status)}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* Yellow Separation Bar */}
-            <div className="bg-gradient-to-r from-yellow-500 to-yellow-400 h-1.5 w-full shadow-sm"></div>
+            <div className="p-10 space-y-10 print:p-8 print:space-y-8 bg-slate-50/50">
 
-            <div className="p-8 space-y-7 print:p-6 print:space-y-6 bg-gray-50">
-
-                {/* Client Info - Traditional Formal Layout */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6 grid md:grid-cols-2 gap-8 relative">
-                    <div>
-                        <h3 className="text-blue-900 border-b border-blue-900 pb-1 mb-2 text-xs font-bold uppercase tracking-widest">Bill To</h3>
-                        <p className="text-lg font-bold text-gray-900 mb-1">{display(invoice.clientName)}</p>
-                        <p className="text-gray-600 font-sans text-sm">{display(invoice.clientAddress)}</p>
+                {/* Information Grid */}
+                <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-8 grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <div className="md:col-span-2 space-y-4">
+                        <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-blue-900 rounded-sm transform rotate-45"></div>
+                            <h3 className="text-slate-900 font-black uppercase text-[10px] tracking-[0.3em]">Billed Entity</h3>
+                        </div>
+                        <div className="pl-4 border-l-2 border-blue-900/10">
+                            <p className="text-xl font-black text-slate-950 uppercase tracking-tight mb-2 leading-none">{display(invoice.clientName)}</p>
+                            <p className="text-slate-500 font-medium text-xs leading-relaxed italic max-w-md">{display(invoice.clientAddress)}</p>
+                        </div>
                     </div>
-                    <div className="space-y-2 font-sans text-sm">
-                        <div className="flex justify-between border-b border-gray-200 pb-0.5">
-                            <span className="text-gray-500 uppercase font-bold text-[10px]">Issue Date</span>
-                            <span className="font-bold text-gray-900">{displayDate(invoice.issueDate)}</span>
+                    <div className="space-y-6 md:border-l md:border-slate-100 md:pl-10">
+                        <div className="flex justify-between md:block">
+                            <p className="text-slate-400 text-[9px] uppercase font-black tracking-widest mb-1.5 opacity-70">Generation Date</p>
+                            <p className="text-sm font-black text-slate-900">{displayDate(invoice.issueDate)}</p>
                         </div>
-                        <div className="flex justify-between border-b border-gray-200 pb-0.5">
-                            <span className="text-gray-500 uppercase font-bold text-[10px]">Due Date</span>
-                            <span className="font-bold text-red-700">{displayDate(invoice.dueDate)}</span>
-                        </div>
-                        <div className="flex justify-between border-b border-gray-200 pb-0.5">
-                            <span className="text-gray-500 uppercase font-bold text-[10px]">Flight Date</span>
-                            <span className="font-bold text-gray-900">{displayDate(invoice.flightDate)}</span>
-                        </div>
-                        <div className="flex justify-between border-b border-gray-200 pb-0.5">
-                            <span className="text-gray-500 uppercase font-bold text-[10px]">Internal ID</span>
-                            <span className="font-bold text-gray-900">{display(invoice.id)}</span>
+                        <div className="flex justify-between md:block">
+                            <p className="text-slate-400 text-[9px] uppercase font-black tracking-widest mb-1.5 opacity-70">Settlement Deadline</p>
+                            <p className="text-sm font-black text-red-700 underline decoration-red-100 underline-offset-4">{displayDate(invoice.dueDate)}</p>
                         </div>
                     </div>
                 </div>
 
-                {/* Map - Full Width, No Border */}
-                {invoice.mapHtml && (
-                    <div data-map-section="true" className="w-full bg-gray-50">
-                        <MapSection mapHtml={invoice.mapHtml} />
-                    </div>
-                )}
-
-                {/* Flight Details - Table Style */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
-                    <div className="bg-blue-950 text-yellow-500 px-4 py-2 uppercase font-bold tracking-widest text-xs mb-0 border-b-2 border-yellow-500">
-                        Flight Particulars
-                    </div>
-                    <table className="w-full font-sans text-sm border-collapse">
-                        <tbody>
-                            <tr className="border-b border-gray-200">
-                                <td className="py-2 px-2 font-bold text-gray-500 w-1/4">Flight Number</td>
-                                <td className="py-2 px-2 font-bold text-blue-900">{display(invoice.flightNumber)}</td>
-                                <td className="py-2 px-2 font-bold text-gray-500 w-1/4">Registration</td>
-                                <td className="py-2 px-2 font-bold text-gray-900">{display(invoice.registrationNumber)}</td>
-                            </tr>
-                            <tr className="border-b border-gray-200">
-                                <td className="py-2 px-2 font-bold text-gray-500">Route</td>
-                                <td className="py-2 px-2 font-bold text-gray-900" colSpan={3}>
-                                    {display(invoice.originIcao)} <span className="text-yellow-600 px-2">✈</span> {display(invoice.destinationIcao)}
-                                </td>
-                            </tr>
-                            <tr className="border-b border-gray-200">
-                                <td className="py-2 px-2 font-bold text-gray-500">Aircraft Type</td>
-                                <td className="py-2 px-2 font-bold text-gray-900">{display(invoice.act)} ({display(invoice.aircraftModelName)})</td>
-                                <td className="py-2 px-2 font-bold text-gray-500">Mode S</td>
-                                <td className="py-2 px-2 font-bold text-gray-900">{display(invoice.modeSHex)}</td>
-                            </tr>
-                            <tr className="border-b border-gray-200">
-                                <td className="py-2 px-2 font-bold text-gray-500">Entry / Exit</td>
-                                <td className="py-2 px-2 font-bold text-gray-900">
-                                    IN: {displayDate(invoice.firEntryTimeUtc)}
-                                </td>
-                                <td className="py-2 px-2 font-bold text-gray-500">Region</td>
-                                <td className="py-2 px-2 font-bold text-gray-900">{display(invoice.firName)} ({display(invoice.firCountry)})</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                {/* Map Section */}
+                <div data-map-section="true" className="w-full rounded-3xl overflow-hidden shadow-sm border-2 border-white ring-1 ring-slate-100">
+                    <MapSection mapHtml={invoice.mapHtml} />
                 </div>
 
-                {/* Fees - Minimalist Right Aligned */}
-                <div className="break-before-page print:break-before-page bg-white rounded-lg shadow-sm border border-gray-100 p-6 space-y-4" style={{ pageBreakBefore: 'always' }}>
-                    <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 border-b-2 border-blue-950 pb-3">Charges Summary</h3>
+                {/* Flight Data */}
+                <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-8">
+                    <div className="flex items-center gap-4 mb-10">
+                        <h3 className="text-slate-950 font-black uppercase text-[10px] tracking-[0.3em] flex items-center gap-2">
+                            <span className="w-2 h-2 bg-blue-900 rounded-sm transform rotate-45"></span>
+                            Flight Execution Record
+                        </h3>
+                        <div className="h-px bg-slate-50 flex-1"></div>
+                    </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {/* Fee Details */}
-                        <div>
-                            <div className="bg-blue-50 p-4 rounded-lg border border-blue-100 space-y-3">
-                                <h4 className="text-xs font-bold text-blue-900 uppercase tracking-wider">Breakdown</h4>
-                                <ul className="space-y-2 text-sm text-gray-600 font-sans">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-12">
+                        <div className="space-y-3">
+                            <p className="text-[9px] text-slate-400 uppercase font-black tracking-widest">Asset Reference</p>
+                            <p className="text-xl font-black text-slate-950 tracking-tighter">{display(invoice.flightNumber)}</p>
+                            <p className="text-[10px] text-blue-900 font-black uppercase tracking-widest italic">{displayDate(invoice.flightDate)}</p>
+                        </div>
+                        <div className="space-y-3">
+                            <p className="text-[9px] text-slate-400 uppercase font-black tracking-widest">Aircraft Signature</p>
+                            <p className="text-sm font-black text-slate-900 leading-tight">{display(invoice.registrationNumber)}</p>
+                            <p className="text-[10px] text-slate-400 font-bold uppercase">{display(invoice.aircraftModelName)}</p>
+                        </div>
+                        <div className="space-y-3">
+                            <p className="text-[9px] text-slate-400 uppercase font-black tracking-widest">Operational Route</p>
+                            <div className="flex items-center gap-3 text-base font-black text-slate-950">
+                                <span className="px-2 py-0.5 bg-slate-50 rounded border border-slate-100">{display(invoice.originIcao)}</span>
+                                <span className="text-blue-400 opacity-30">✈</span>
+                                <span className="px-2 py-0.5 bg-slate-50 rounded border border-slate-100">{display(invoice.destinationIcao)}</span>
+                            </div>
+                        </div>
+                        <div className="space-y-3">
+                            <p className="text-[9px] text-slate-400 uppercase font-black tracking-widest">Control FIR</p>
+                            <div className="text-sm font-black text-slate-950 uppercase">
+                                <p className="truncate leading-none">{display(invoice.firName)}</p>
+                                <p className="text-slate-400 text-[9px] mt-2 font-mono">{display(invoice.modeSHex)}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Charges & Summary */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 break-before-page print:break-before-page" style={{ pageBreakBefore: 'always' }}>
+                    {/* Financial Breakdown */}
+                    <div className="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-slate-100 p-8 space-y-10">
+                        <h3 className="text-slate-950 font-black uppercase text-[10px] tracking-[0.3em] flex items-center gap-2 border-b border-slate-50 pb-5">
+                            <span className="w-2 h-2 bg-blue-900 rounded-sm transform rotate-45"></span>
+                            Financial Audit
+                        </h3>
+
+                        <div className="space-y-8">
+                            <div className="space-y-5">
+                                <p className="text-[9px] font-black text-blue-900 uppercase tracking-widest">Primary Service Fees</p>
+                                <ul className="space-y-4">
                                     {feeDetails.length > 0 ? feeDetails.map((detail, idx) => (
-                                        <li key={idx} className="flex gap-3 items-start">
-                                            <span className="text-blue-900 font-bold">•</span>
-                                            <span className="flex-1">{display(detail)}</span>
+                                        <li key={idx} className="flex items-start gap-4 text-[12px] font-medium text-slate-600 leading-relaxed italic">
+                                            <span className="w-1.5 h-1.5 bg-blue-100 rounded-full mt-1 flex-shrink-0"></span>
+                                            {display(detail)}
                                         </li>
                                     )) : (
-                                        <li className="flex gap-3 items-start">
-                                            <span className="text-blue-900 font-bold">•</span>
-                                            <span>N/A</span>
-                                        </li>
+                                        <li className="text-xs font-medium text-slate-400 italic pl-6">No data provided</li>
                                     )}
                                 </ul>
-                                <div className="pt-3 border-t border-blue-200 space-y-2 text-sm font-sans">
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-600 font-medium">Base Fees</span>
-                                        <span className="font-bold text-blue-900">${displayCurrency(invoice.feeAmount)}</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-600 font-medium">Other Charges</span>
-                                        <span className="font-bold text-blue-900">${displayCurrency(invoice.otherFeesAmount || 0)}</span>
-                                    </div>
+                                <div className="flex justify-between items-center bg-blue-50/30 p-5 rounded-2xl border border-blue-100">
+                                    <span className="text-[10px] font-black text-blue-900 uppercase tracking-widest">Operational Subtotal</span>
+                                    <span className="text-lg font-black text-slate-950">{displayCurrency(invoice.feeAmount)}</span>
                                 </div>
                             </div>
+
+                            {otherFeesBreakdown.length > 0 && (
+                                <div className="space-y-5 pt-4">
+                                    <p className="text-[9px] font-black text-blue-900 uppercase tracking-widest">Support & Logistics</p>
+                                    <div className="space-y-5">
+                                        {otherFeesBreakdown.map((fee, idx) => (
+                                            <div key={idx} className="flex justify-between items-start">
+                                                <div className="flex items-start gap-4">
+                                                    <span className="w-1.5 h-1.5 bg-blue-900/10 rounded-full mt-1.5 flex-shrink-0"></span>
+                                                    <div>
+                                                        <p className="text-[13px] font-black text-slate-900 uppercase tracking-tight">{fee.label}</p>
+                                                        {fee.description && (
+                                                            <p className="text-[11px] text-slate-400 mt-1 leading-snug">{fee.description}</p>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                                <div className="text-right ml-4">
+                                                    <p className="text-[13px] font-black text-slate-950 font-mono tracking-tighter">{displayCurrency(fee.amount)}</p>
+                                                    {fee.originalAmount && fee.currency && fee.currency !== 'USD' && (
+                                                        <p className="text-[9px] text-slate-400 font-black mt-0.5 opacity-60">{fee.currency} {fee.originalAmount.toFixed(2)}</p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="flex justify-between items-center bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                                        <span className="text-[10px] font-black text-slate-800 uppercase tracking-widest">Ancillary Subtotal</span>
+                                        <span className="text-lg font-black text-slate-900">{displayCurrency(calculateTotalOtherFees(invoice.otherFeesAmount))}</span>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Settlement Controls */}
+                    <div className="flex flex-col gap-6">
+                        <div className="bg-gradient-to-br from-blue-950 to-blue-900 rounded-3xl shadow-xl p-10 text-white relative overflow-hidden flex flex-col items-center">
+                            <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/5 rounded-full blur-3xl"></div>
+                            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-yellow-500/10 rounded-full blur-3xl"></div>
+
+                            <p className="text-blue-200 font-black uppercase text-[10px] tracking-[0.4em] mb-8 relative z-10 flex items-center gap-3">
+                                <span className="w-1 h-3 bg-yellow-500"></span>
+                                Amount Payable
+                            </p>
+                            <div className="text-7xl font-black mb-6 tracking-tighter relative z-10 flex items-baseline">
+                                <span className="text-3xl font-medium opacity-40 mr-2">$</span>
+                                {invoice.totalUsdAmount?.toFixed(2)}
+                            </div>
+                            <p className="text-yellow-500 text-[10px] font-black uppercase tracking-widest mb-10 relative z-10">Institutional Settlement Currency (USD)</p>
+                            <PayNowButton invoice={invoice} variant="white" className="scale-110 shadow-2xl relative z-10 font-black uppercase tracking-widest" />
                         </div>
 
-                        {/* Total Summary */}
-                        <div className="flex flex-col justify-between space-y-4">
-                            <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-100">
-                                <div className="flex justify-between items-center text-sm font-sans mb-2">
-                                    <span className="text-gray-600 font-medium">Subtotal ({invoice.originalCurrency || 'USD'})</span>
-                                    <span className="font-bold text-gray-900">{displayCurrency(invoice.totalOriginalAmount, invoice.originalCurrency)}</span>
-                                </div>
-                                <div className="text-center text-xs text-gray-500 pt-2 border-t border-yellow-200">
-                                    <p>FX Rate: <span className="font-mono font-bold">{invoice.fxRate ? invoice.fxRate.toFixed(4) : 'N/A'}</span></p>
-                                </div>
+                        <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-8 space-y-5">
+                            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest text-center opacity-70">Exchange Protocols</p>
+                            <div className="flex justify-between text-xs font-black text-slate-800 uppercase tracking-tight">
+                                <span className="opacity-40">Original Value</span>
+                                <span>{displayCurrency(displaySubtotal, invoice.originalCurrency)}</span>
                             </div>
-
-                            <div className="bg-gradient-to-r from-blue-950 to-blue-900 rounded-lg p-4 text-white space-y-3">
+                            <div className="h-px bg-slate-50"></div>
+                            {invoice.fxRate && (
                                 <div className="text-center">
-                                    <p className="text-[10px] uppercase font-bold text-blue-100 mb-1">Total Amount Payable</p>
-                                    <p className="text-3xl font-black">${displayCurrency(invoice.totalUsdAmount)}</p>
+                                    <p className="text-[10px] font-bold text-slate-400 italic">Rate Index: <span className="text-blue-900 font-black">{invoice.fxRate.toFixed(4)}</span></p>
                                 </div>
-                                <PayNowButton invoice={invoice} variant="gold" className="w-full shadow-lg" />
-                            </div>
+                            )}
                         </div>
                     </div>
                 </div>
 
-                {/* Footer - Simple Centered with QR */}
-                <div className="pt-6 border-t border-gray-100 font-sans text-[10px] text-gray-500 flex justify-between items-center">
-                    <div className="text-center flex-1">
-                        <h4 className="font-bold text-blue-900 uppercase tracking-widest mb-0.5">DaVinci Aviation Services</h4>
-                        <p className="mb-1">billing@davinci-aviation.com | +1 (555) 123-4567</p>
-                        <p className="border-t border-gray-200 inline-block pt-1 px-4 italic">Thank you for your business</p>
+                {/* Professionalized Footer Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pt-4">
+                    {/* Compliance Terms */}
+                    <div className="md:col-span-4 bg-white rounded-3xl p-8 border border-slate-100 italic relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-24 h-24 bg-slate-50/50 -mr-12 -mt-12 rounded-full"></div>
+                        <h3 className="text-slate-950 font-black text-[10px] uppercase tracking-[0.3em] mb-8 flex items-center gap-2">
+                            <span className="w-2 h-0.5 bg-blue-900"></span>
+                            Settlement Terms
+                        </h3>
+                        <ul className="space-y-5 text-[10px] font-medium text-slate-500 leading-snug">
+                            <li className="flex gap-4">
+                                <span className="text-blue-900 font-black italic">I.</span>
+                                <span>Settlement timeframe is 30 calendar days from registration.</span>
+                            </li>
+                            <li className="flex gap-4">
+                                <span className="text-blue-900 font-black italic">II.</span>
+                                <span>Late surcharges of 1.5% applied monthly on outstanding depth.</span>
+                            </li>
+                            <li className="flex gap-4 border-t border-slate-50 pt-5 mt-5">
+                                <span className="text-blue-900/50 font-black italic">III.</span>
+                                <span>Invoice ID must be cited in all transfer communications.</span>
+                            </li>
+                        </ul>
                     </div>
-                    <div className="print:block hidden">
-                        <InvoiceQr invoiceId={invoice.id} size={100} />
+
+                    {/* Banking Instructions */}
+                    <div className="md:col-span-5 bg-white rounded-3xl p-8 border border-slate-100">
+                        <h3 className="text-slate-950 font-black text-[10px] uppercase tracking-[0.3em] mb-8 flex items-center gap-2">
+                            <span className="w-2 h-0.5 bg-blue-900"></span>
+                            Banking Instructions
+                        </h3>
+                        <div className="space-y-6">
+                            <div className="flex flex-col gap-1">
+                                <p className="text-[8px] font-black text-blue-900 uppercase tracking-widest">Electronic Beneficiary</p>
+                                <p className="text-xs font-black text-slate-950 truncate uppercase">{invoice.ClientKYC?.bankName || 'Standard Chartered Bank'}</p>
+                            </div>
+                            <div className="h-px bg-slate-50"></div>
+                            <div className="flex flex-col gap-1">
+                                <p className="text-[8px] font-black text-blue-900 uppercase tracking-widest">Account Number / IBAN</p>
+                                <p className="text-sm font-black text-slate-950 font-mono tracking-tighter">{invoice.ClientKYC?.accountNumberIBAN || 'AE220260001018557784601'}</p>
+                            </div>
+                            <div className="grid grid-cols-2 gap-6">
+                                <div className="flex flex-col gap-1">
+                                    <p className="text-[8px] font-black text-blue-900 uppercase tracking-widest">SWIFT / BIC</p>
+                                    <p className="text-xs font-black text-slate-900 font-mono italic">{invoice.ClientKYC?.swiftBICCode || 'EBIDAEADXXX'}</p>
+                                </div>
+                                <div className="text-right flex flex-col gap-1">
+                                    <p className="text-[8px] font-black text-blue-900 uppercase tracking-widest">Transaction Ref</p>
+                                    <p className="text-[10px] font-black text-slate-950 italic opacity-60 leading-none">{invoice.invoiceNumber}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Verification Record */}
+                    <div className="md:col-span-3 bg-slate-950 rounded-3xl p-8 border border-slate-800 flex flex-col items-center justify-center text-center shadow-xl">
+                        <div className="p-2.5 bg-white rounded-2xl shadow-inner">
+                            <InvoiceQr invoiceId={invoice.id} size={90} />
+                        </div>
+                        <p className="text-[9px] font-black text-white uppercase tracking-[0.3em] mt-6 leading-none">Record Verification</p>
+                        <p className="text-[8px] font-bold text-yellow-500 uppercase mt-2 tracking-widest italic opacity-60">System Log: {String(invoice.id).slice(-8)}</p>
+                    </div>
+                </div>
+
+                {/* Global Brand Navigation Footer */}
+                <div className="pt-10 pb-4 flex flex-col sm:flex-row justify-between items-center gap-6">
+                    <div className="flex items-center gap-5">
+                        <img
+                            src="/assets/logo.png"
+                            alt=""
+                            className="h-8 grayscale opacity-20"
+                        />
+                        <div className="w-px h-6 bg-slate-200"></div>
+                        <p className="text-[9px] font-black text-slate-300 uppercase tracking-[0.5em]">DaVinci Aero Systems • APAC Region v4.2</p>
+                    </div>
+                    <div className="flex gap-4">
+                        <span className="text-[8px] font-black text-blue-900/30 uppercase tracking-widest cursor-default">Institutional Billing • Proprietary Document</span>
                     </div>
                 </div>
             </div>

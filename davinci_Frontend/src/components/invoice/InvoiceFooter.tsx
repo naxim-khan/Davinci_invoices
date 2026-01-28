@@ -76,7 +76,7 @@ export function InvoiceFooter({ invoice }: InvoiceFooterProps) {
                         </h4>
                         <p className="text-emerald-50">Business Hours:</p>
                         <p className="text-emerald-50">Mon-Fri: 9:00 AM - 6:00 PM UTC</p>
-                        <p className="text-emerald-50 mt-1 text-xs">Invoice ID: {invoice.id}</p>
+                        <p className="text-emerald-50 mt-1 text-xs">Invoice ID: {String(invoice.id)}</p>
                     </div>
                 </div>
 

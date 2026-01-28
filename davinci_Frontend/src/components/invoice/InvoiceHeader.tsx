@@ -113,7 +113,7 @@ export function InvoiceHeader({ invoice }: InvoiceHeaderProps) {
                             </>
                         )}
                     </button>
-                    
+
                     {/* QR Code - Right Corner with Rounded Background */}
                     <div className="bg-white/10 backdrop-blur-md rounded-xl p-2 border border-white/20">
                         <InvoiceQr invoiceId={invoice.id} size={80} />

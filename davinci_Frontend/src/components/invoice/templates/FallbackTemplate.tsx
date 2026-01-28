@@ -20,14 +20,12 @@ export function FallbackTemplate({ invoice }: TemplateProps) {
                     <ClientInfoSection invoice={invoice} />
                 </div>
 
-                {/* Render map after client information if available */}
-                {invoice.mapHtml && (
-                    <div data-map-section="true" className="rounded-lg overflow-hidden shadow-sm border border-gray-100">
-                        <MapSection
-                            mapHtml={invoice.mapHtml}
-                        />
-                    </div>
-                )}
+                {/* Render map after client information - always show with fallback */}
+                <div data-map-section="true" className="rounded-lg overflow-hidden shadow-sm border border-gray-100">
+                    <MapSection
+                        mapHtml={invoice.mapHtml}
+                    />
+                </div>
 
                 <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
                     <FlightInfoSection invoice={invoice} />

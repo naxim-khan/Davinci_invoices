@@ -7,8 +7,35 @@ export const formatDate = (dateString: string | null) => {
     });
 };
 
-export const formatCurrency = (amount: number, currency?: string | null) => {
-    return `${currency || 'USD'} ${amount.toFixed(2)}`;
+// Helper to safely sum otherFeesAmount which can be number, array, or JSON object
+export const calculateTotalOtherFees = (otherFees: any): number => {
+    if (!otherFees) return 0;
+
+    // If it's an array of fee objects (database format)
+    if (Array.isArray(otherFees)) {
+        return otherFees.reduce((sum: number, item: any) => {
+            if (item && typeof item === 'object') {
+                // Prefer USD amount if available, otherwise use original amount
+                const amount = item.amount_usd || item.amount || 0;
+                return sum + (typeof amount === 'number' ? amount : 0);
+            }
+            return sum;
+        }, 0);
+    }
+
+    if (typeof otherFees === 'number') return otherFees;
+    if (typeof otherFees === 'object') {
+        // Sum all values if it's an object (legacy format)
+        return Object.values(otherFees).reduce((sum: number, val: any) => {
+            return sum + (typeof val === 'number' ? val : 0);
+        }, 0);
+    }
+    return 0;
+};
+
+export const formatCurrency = (amount: number | null | undefined, currency?: string | null) => {
+    const val = typeof amount === 'number' ? amount : 0;
+    return `${currency || 'USD'} ${val.toFixed(2)}`;
 };
 
 export const getStatusColor = (status: string) => {

@@ -6,7 +6,7 @@ import { LoadingSpinner } from '../common/LoadingSpinner';
 type TemplateComponent = ComponentType<{ invoice: Invoice }>;
 
 // Fallback template - used when template ID doesn't match any existing template
-const TemplateDefault: TemplateComponent = lazy(() => 
+const TemplateDefault: TemplateComponent = lazy(() =>
     import('./templates/FallbackTemplate').then(m => ({ default: m.FallbackTemplate }))
 ) as TemplateComponent;
 
@@ -31,8 +31,8 @@ interface TemplateSelectorProps {
  * 3. That's it! The selector will automatically find and use it.
  */
 export function InvoiceTemplateSelector({ invoice }: TemplateSelectorProps) {
-    const templateId = invoice.invoiceTemplate?.toString().trim() || '';
-    
+    const templateId = invoice.invoiceTemplate?.toString() || '';
+
     // Memoize the lazy component to maintain proper typing and avoid recreating on every render
     const SelectedTemplate = useMemo((): TemplateComponent => {
         if (!templateId) {
@@ -46,8 +46,8 @@ export function InvoiceTemplateSelector({ invoice }: TemplateSelectorProps) {
                 return { default: Template };
             }).catch(() => {
                 // If template doesn't exist, return the default template
-                return import('./templates/FallbackTemplate').then(m => ({ 
-                    default: m.FallbackTemplate 
+                return import('./templates/FallbackTemplate').then(m => ({
+                    default: m.FallbackTemplate
                 }));
             })
         ) as TemplateComponent;

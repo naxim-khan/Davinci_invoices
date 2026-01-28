@@ -1,5 +1,6 @@
 import type { Invoice } from '../../types/invoice';
-import { formatCurrency } from '../../utils/formatters';
+import { formatCurrency, calculateTotalOtherFees } from '../../utils/formatters';
+import { formatOtherFeesBreakdown } from '../../utils/invoiceHelpers';
 import { PayNowButton } from './PayNowButton';
 
 interface FeesBreakdownSectionProps {
@@ -7,6 +8,15 @@ interface FeesBreakdownSectionProps {
 }
 
 export function FeesBreakdownSection({ invoice }: FeesBreakdownSectionProps) {
+    const totalOtherFees = calculateTotalOtherFees(invoice.otherFeesAmount);
+    const otherFeesBreakdown = formatOtherFeesBreakdown(invoice.otherFeesAmount);
+
+    // Calculate subtotal: if totalOriginalAmount is 0 or invalid, calculate it
+    const calculatedSubtotal = (invoice.feeAmount || 0) + totalOtherFees;
+    const displaySubtotal = invoice.totalOriginalAmount && invoice.totalOriginalAmount > 0
+        ? invoice.totalOriginalAmount
+        : calculatedSubtotal;
+
     return (
         <div className="bg-linear-to-br from-emerald-400 to-teal-500 rounded-xl p-4 border border-emerald-300">
             <div className="flex items-center gap-2 mb-3">
@@ -22,13 +32,41 @@ export function FeesBreakdownSection({ invoice }: FeesBreakdownSectionProps) {
                         <span className="text-gray-600">Fee Amount</span>
                         <span className="font-semibold text-gray-900">{formatCurrency(invoice.feeAmount, invoice.originalCurrency)}</span>
                     </div>
-                    <div className="flex justify-between py-1.5 text-sm">
-                        <span className="text-gray-600">Other Fees</span>
-                        <span className="font-semibold text-gray-900">{formatCurrency(invoice.otherFeesAmount, invoice.originalCurrency)}</span>
-                    </div>
+                    {/* Other Fees - Show detailed breakdown if available */}
+                    {otherFeesBreakdown.length > 0 ? (
+                        <>
+                            {otherFeesBreakdown.map((fee, index) => (
+                                <div key={index} className="py-2 border-b border-emerald-100 last:border-0">
+                                    <div className="flex justify-between items-start">
+                                        <div className="flex-1">
+                                            <p className="text-sm font-semibold text-gray-900">{fee.label}</p>
+                                            {fee.description && (
+                                                <p className="text-xs text-gray-600 mt-1 italic">{fee.description}</p>
+                                            )}
+                                        </div>
+                                        <div className="text-right ml-3">
+                                            <p className="text-sm font-semibold text-gray-900">
+                                                {formatCurrency(fee.amount, 'USD')}
+                                            </p>
+                                            {fee.originalAmount && fee.currency && fee.currency !== 'USD' && (
+                                                <p className="text-xs text-gray-500">
+                                                    {fee.currency} {fee.originalAmount.toFixed(2)}
+                                                </p>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </>
+                    ) : totalOtherFees > 0 ? (
+                        <div className="flex justify-between py-1.5 text-sm">
+                            <span className="text-gray-600">Other Fees</span>
+                            <span className="font-semibold text-gray-900">{formatCurrency(totalOtherFees, invoice.originalCurrency)}</span>
+                        </div>
+                    ) : null}
                     <div className="flex justify-between py-1.5 text-sm border-t border-emerald-100">
                         <span className="text-gray-700 font-medium">Subtotal ({invoice.originalCurrency || 'USD'})</span>
-                        <span className="font-semibold text-gray-900">{formatCurrency(invoice.totalOriginalAmount, invoice.originalCurrency)}</span>
+                        <span className="font-semibold text-gray-900">{formatCurrency(displaySubtotal, invoice.originalCurrency)}</span>
                     </div>
                     {invoice.fxRate && (
                         <div className="flex justify-between py-1 text-xs text-gray-500">
