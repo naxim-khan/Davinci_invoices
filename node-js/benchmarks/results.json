@@ -2669,5 +2669,635 @@
     "mode": "BATCH_PARALLEL",
     "durationMs": 7767,
     "timestamp": "2026-01-27T12:37:26.330Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10606,
+    "timestamp": "2026-01-28T10:20:08.495Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 15952,
+    "timestamp": "2026-01-28T10:20:54.746Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9037,
+    "timestamp": "2026-01-28T10:24:04.180Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9751,
+    "timestamp": "2026-01-28T10:26:35.349Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8659,
+    "timestamp": "2026-01-28T10:26:55.730Z"
+  },
+  {
+    "batchSize": 5,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 6034,
+    "timestamp": "2026-01-28T10:28:01.460Z"
+  },
+  {
+    "batchSize": 5,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 6104,
+    "timestamp": "2026-01-28T10:29:26.082Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8048,
+    "timestamp": "2026-01-28T10:31:56.028Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8262,
+    "timestamp": "2026-01-28T10:32:34.547Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8295,
+    "timestamp": "2026-01-28T10:33:13.091Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7275,
+    "timestamp": "2026-01-28T10:33:50.623Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 6837,
+    "timestamp": "2026-01-28T10:34:27.731Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 7161,
+    "timestamp": "2026-01-28T10:35:05.147Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10864,
+    "timestamp": "2026-01-28T10:35:46.264Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10739,
+    "timestamp": "2026-01-28T10:36:27.258Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9350,
+    "timestamp": "2026-01-28T10:37:06.859Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 16389,
+    "timestamp": "2026-01-28T10:40:33.775Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 16883,
+    "timestamp": "2026-01-28T10:42:23.051Z"
+  },
+  {
+    "batchSize": 2,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5322,
+    "timestamp": "2026-01-28T10:53:49.619Z"
+  },
+  {
+    "batchSize": 2,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4984,
+    "timestamp": "2026-01-28T10:54:25.078Z"
+  },
+  {
+    "batchSize": 2,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4883,
+    "timestamp": "2026-01-28T10:54:52.048Z"
+  },
+  {
+    "batchSize": 2,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5219,
+    "timestamp": "2026-01-28T10:58:34.073Z"
+  },
+  {
+    "batchSize": 2,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4450,
+    "timestamp": "2026-01-28T11:00:36.153Z"
+  },
+  {
+    "batchSize": 2,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4281,
+    "timestamp": "2026-01-28T11:01:30.710Z"
+  },
+  {
+    "batchSize": 5,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5430,
+    "timestamp": "2026-01-28T11:02:45.888Z"
+  },
+  {
+    "batchSize": 5,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5356,
+    "timestamp": "2026-01-28T11:04:21.307Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11108,
+    "timestamp": "2026-01-28T11:05:37.773Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10304,
+    "timestamp": "2026-01-28T11:06:18.180Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10988,
+    "timestamp": "2026-01-28T11:06:59.436Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11095,
+    "timestamp": "2026-01-28T11:07:40.622Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11674,
+    "timestamp": "2026-01-28T11:08:22.389Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9520,
+    "timestamp": "2026-01-28T11:09:02.018Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 18057,
+    "timestamp": "2026-01-28T11:09:50.200Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9651,
+    "timestamp": "2026-01-28T11:10:30.010Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9539,
+    "timestamp": "2026-01-28T11:11:09.636Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9158,
+    "timestamp": "2026-01-28T11:11:49.096Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11033,
+    "timestamp": "2026-01-28T11:12:30.295Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 17539,
+    "timestamp": "2026-01-28T11:13:17.974Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9545,
+    "timestamp": "2026-01-28T11:13:57.621Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 12052,
+    "timestamp": "2026-01-28T11:14:39.767Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11551,
+    "timestamp": "2026-01-28T11:15:21.349Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 12712,
+    "timestamp": "2026-01-28T11:16:04.166Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 27490,
+    "timestamp": "2026-01-28T11:17:01.763Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11562,
+    "timestamp": "2026-01-28T11:28:27.762Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10065,
+    "timestamp": "2026-01-28T11:29:07.943Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9130,
+    "timestamp": "2026-01-28T11:29:47.172Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10304,
+    "timestamp": "2026-01-28T11:30:27.584Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9236,
+    "timestamp": "2026-01-28T11:31:06.903Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8885,
+    "timestamp": "2026-01-28T11:31:46.064Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9577,
+    "timestamp": "2026-01-28T11:32:25.770Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10758,
+    "timestamp": "2026-01-28T11:33:06.708Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9556,
+    "timestamp": "2026-01-28T11:33:46.276Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8137,
+    "timestamp": "2026-01-28T11:34:24.729Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9663,
+    "timestamp": "2026-01-28T11:35:04.546Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11038,
+    "timestamp": "2026-01-28T11:35:45.712Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8839,
+    "timestamp": "2026-01-28T11:36:24.709Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 11047,
+    "timestamp": "2026-01-28T11:37:05.873Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9163,
+    "timestamp": "2026-01-28T11:39:25.953Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9321,
+    "timestamp": "2026-01-28T11:40:05.581Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8485,
+    "timestamp": "2026-01-28T11:40:44.185Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9020,
+    "timestamp": "2026-01-28T11:41:23.313Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8130,
+    "timestamp": "2026-01-28T11:42:01.525Z"
+  },
+  {
+    "batchSize": 1,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4781,
+    "timestamp": "2026-01-28T11:44:16.399Z"
+  },
+  {
+    "batchSize": 1,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4475,
+    "timestamp": "2026-01-28T11:44:50.910Z"
+  },
+  {
+    "batchSize": 1,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4476,
+    "timestamp": "2026-01-28T11:45:25.436Z"
+  },
+  {
+    "batchSize": 1,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5334,
+    "timestamp": "2026-01-28T11:46:00.879Z"
+  },
+  {
+    "batchSize": 1,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4331,
+    "timestamp": "2026-01-28T11:46:35.250Z"
+  },
+  {
+    "batchSize": 1,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4512,
+    "timestamp": "2026-01-28T11:47:09.794Z"
+  },
+  {
+    "batchSize": 1,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4389,
+    "timestamp": "2026-01-28T11:47:44.240Z"
+  },
+  {
+    "batchSize": 1,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4072,
+    "timestamp": "2026-01-28T11:48:18.342Z"
+  },
+  {
+    "batchSize": 1,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4665,
+    "timestamp": "2026-01-28T11:48:53.059Z"
+  },
+  {
+    "batchSize": 1,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4521,
+    "timestamp": "2026-01-28T11:49:27.618Z"
+  },
+  {
+    "batchSize": 1,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4663,
+    "timestamp": "2026-01-28T11:50:02.290Z"
+  },
+  {
+    "batchSize": 1,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5148,
+    "timestamp": "2026-01-28T11:50:37.466Z"
+  },
+  {
+    "batchSize": 1,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4472,
+    "timestamp": "2026-01-28T11:51:11.965Z"
+  },
+  {
+    "batchSize": 1,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 4976,
+    "timestamp": "2026-01-28T11:52:57.653Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10035,
+    "timestamp": "2026-01-28T11:53:58.636Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8796,
+    "timestamp": "2026-01-28T11:54:37.658Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9597,
+    "timestamp": "2026-01-28T11:55:18.031Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9955,
+    "timestamp": "2026-01-28T11:56:03.907Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10424,
+    "timestamp": "2026-01-28T11:56:44.443Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10491,
+    "timestamp": "2026-01-28T11:57:25.231Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9931,
+    "timestamp": "2026-01-28T11:58:05.430Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9128,
+    "timestamp": "2026-01-28T11:58:44.662Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 10325,
+    "timestamp": "2026-01-28T12:06:23.177Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9220,
+    "timestamp": "2026-01-28T12:07:02.567Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 9147,
+    "timestamp": "2026-01-28T12:12:59.526Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 8897,
+    "timestamp": "2026-01-28T12:13:38.651Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 24847,
+    "timestamp": "2026-01-28T12:16:18.755Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 5439,
+    "timestamp": "2026-01-28T12:16:54.463Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 25607,
+    "timestamp": "2026-01-28T12:20:26.463Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 19506,
+    "timestamp": "2026-01-28T12:21:20.669Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 34025,
+    "timestamp": "2026-01-28T12:22:25.407Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 30971,
+    "timestamp": "2026-01-28T12:23:30.092Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 31193,
+    "timestamp": "2026-01-28T12:24:31.549Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 21919,
+    "timestamp": "2026-01-28T12:25:24.071Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 50566,
+    "timestamp": "2026-01-28T12:26:49.290Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 26742,
+    "timestamp": "2026-01-28T12:27:48.092Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 35514,
+    "timestamp": "2026-01-28T12:28:53.862Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 26286,
+    "timestamp": "2026-01-28T12:29:33.621Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 22083,
+    "timestamp": "2026-01-28T12:33:17.662Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 27981,
+    "timestamp": "2026-01-28T12:34:15.927Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 22363,
+    "timestamp": "2026-01-28T12:35:08.553Z"
+  },
+  {
+    "batchSize": 10,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 26622,
+    "timestamp": "2026-01-28T12:36:05.436Z"
+  },
+  {
+    "batchSize": 6,
+    "mode": "BATCH_PARALLEL",
+    "durationMs": 20595,
+    "timestamp": "2026-01-28T12:38:06.363Z"
   }
 ]

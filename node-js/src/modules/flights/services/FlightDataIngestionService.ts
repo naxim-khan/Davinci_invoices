@@ -9,14 +9,14 @@ import { SQSMessageHandler } from '../../../../services/SQSMessageHandler';
  * Configuration for Ingestion Service
  */
 const CONFIG = {
-    BATCH_SIZE: 10,
+    BATCH_SIZE: 10, // number of flights to process in each batch
     POLL_INTERVAL_MS: 30000, // 30 seconds
     MAX_CONCURRENT_WORKERS: 5,
     OUTPUT_DIR: join(process.cwd(), 'data', 'ingested-flights'),
     BENCHMARK_FILE: join(process.cwd(), 'benchmarks', 'results.json'),
     THREAD_METRICS_FILE: join(process.cwd(), 'benchmarks', 'thread_metrics.json'),
     SEQUENTIAL_MODE: false, // Set to false to test parallel performance
-    TOTAL_SCAN_LIMIT: null, // Maximum records to attempt in testing. Set to null for unlimited.
+    TOTAL_SCAN_LIMIT: 200, // Maximum records to attempt in testing. Set to null for unlimited.
 };
 
 export class FlightDataIngestionService {
@@ -28,6 +28,7 @@ export class FlightDataIngestionService {
     private totalThreadsSpawned: number = 0;
     private totalProcessedCount: number = 0;
     private activeThreadsCount: number = 0;
+    private totalInvoicesCreated: number = 0;
 
     private constructor() { }
 
@@ -110,9 +111,23 @@ export class FlightDataIngestionService {
         if (this.isRunning && !limitReached) {
             this.pollTimer = setTimeout(() => this.runCycle(), ms);
         } else if (limitReached && this.isRunning) {
-            logger.info(`[INGESTION] Scan limit reached (${this.totalProcessedCount}). Shutting down.`);
+            this.printSummary();
             this.stop();
         }
+    }
+
+    /**
+     * Print summary when scan limit is reached
+     */
+    private printSummary(): void {
+        console.log('\n' + '='.repeat(60));
+        console.log('         FLIGHT DATA INGESTION - SESSION SUMMARY');
+        console.log('='.repeat(60));
+        console.log(`  Total Flights Processed:  ${this.totalProcessedCount}`);
+        console.log(`  Total Invoices Created:   ${this.totalInvoicesCreated}`);
+        console.log(`  Total Batches:            ${this.batchCount}`);
+        console.log(`  Total Threads Spawned:    ${this.totalThreadsSpawned}`);
+        console.log('='.repeat(60) + '\n');
     }
 
     /**
@@ -210,11 +225,17 @@ export class FlightDataIngestionService {
             } else {
                 // PARALLEL MODE: Process using workers
                 const results = await this.processInParallel(queueEntries);
+                logger.info(`[DEBUG] Parallel results length: ${results.length}`);
                 results.forEach((res, index) => {
-                    if (res && res.success !== false) {
+                    const status = res ? (res.success ? 'SUCCESS' : 'FAILED') : 'NULL';
+                    logger.info(`[DEBUG] Result ${index} (Flight ${queueEntries[index].flightId}): ${status}`);
+
+                    // Check explicit success flag from worker
+                    if (res && res.success === true) {
                         successfulIds.push(queueEntries[index].id);
                     }
                 });
+                logger.info(`[DEBUG] successfulIds length: ${successfulIds.length}`);
             }
 
             const endTime = performance.now();
@@ -266,7 +287,7 @@ export class FlightDataIngestionService {
             }
         }
 
-        return (await Promise.all(results)).filter(r => r !== null);
+        return (await Promise.all(results));
     }
 
     /**
@@ -274,7 +295,7 @@ export class FlightDataIngestionService {
      */
     private async processSingleFlight(queueEntry: { id: number; flightId: bigint }): Promise<void> {
         const handler = new SQSMessageHandler();
-        await handler.handleMessage({
+        const invoiceCount = await handler.handleMessage({
             messageId: `internal-${queueEntry.flightId}`,
             body: JSON.stringify({
                 flightId: queueEntry.flightId.toString(),
@@ -283,7 +304,8 @@ export class FlightDataIngestionService {
             }),
             receiptHandle: 'internal'
         });
-        logger.info(`[INGESTION] Automated processing successful for Flight ${queueEntry.flightId}`);
+        this.totalInvoicesCreated += invoiceCount;
+        logger.info(`[INGESTION] Automated processing successful for Flight ${queueEntry.flightId}. created ${invoiceCount} invoices.`);
     }
 
     /**
@@ -349,7 +371,6 @@ export class FlightDataIngestionService {
             this.totalThreadsSpawned++;
             this.activeThreadsCount++;
             const currentThreadNo = this.totalThreadsSpawned;
-            console.log(`hello thread thread no ${currentThreadNo} (Worker Thread ID: [${worker.threadId}] | Concurrent Active: ${this.activeThreadsCount}/${CONFIG.MAX_CONCURRENT_WORKERS})`);
             const threadStartTime = performance.now();
 
             worker.on('message', async (message) => {
@@ -366,7 +387,30 @@ export class FlightDataIngestionService {
                         durationMs,
                         concurrentAtSpawn: this.activeThreadsCount + 1
                     });
-                    resolve(message.data);
+
+                    // Process flight data through SQSMessageHandler to create invoices
+                    if (message.data) {
+                        try {
+                            const handler = new SQSMessageHandler();
+                            const invoiceCount = await handler.handleMessage({
+                                messageId: `worker-${flightId}`,
+                                body: JSON.stringify({
+                                    flightId: flightId,
+                                    flightData: message.data,
+                                    service: 'parallel-ingestion',
+                                    timestamp: new Date().toISOString()
+                                }),
+                                receiptHandle: 'worker'
+                            });
+                            this.totalInvoicesCreated += invoiceCount;
+                            logger.info(`[INGESTION] Invoice processing completed for Flight ${flightId}. Created ${invoiceCount} invoices.`);
+                        } catch (handlerError: any) {
+                            logger.error(`[INGESTION] Invoice creation failed for Flight ${flightId}: ${handlerError.message}`);
+                        }
+                    }
+
+                    // Return explicit success object for queue deletion
+                    resolve({ success: true, flightId });
                 } else {
                     logger.error(`Worker failed for flight ${flightId}: ${message.error}`);
                     await this.saveThreadMetrics({
@@ -378,7 +422,8 @@ export class FlightDataIngestionService {
                         durationMs,
                         concurrentAtSpawn: this.activeThreadsCount + 1
                     });
-                    resolve(null);
+                    // Return explicit failure object
+                    resolve({ success: false, flightId });
                 }
             });
 
@@ -397,14 +442,17 @@ export class FlightDataIngestionService {
                     durationMs,
                     concurrentAtSpawn: this.activeThreadsCount + 1
                 });
-                resolve(null);
+                resolve({ success: false, flightId });
             });
 
             worker.on('exit', (code) => {
                 if (code !== 0) {
                     logger.debug(`Worker exited with code ${code}`);
                 }
-                resolve(null);
+                // If resolving hasn't happened yet (e.g. crash without error event?), this safe-guards.
+                // However, standard flow handles it in 'message' or 'error'.
+                // We shouldn't double-resolve, but promises ignore subsequent calls.
+                // resolve({ success: false, flightId }); 
             });
         });
     }

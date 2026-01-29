@@ -1,12 +1,12 @@
 /**
- * List Today's Invoices Script
+ * List Today's Invoice Errors Script
  * 
- * This script fetches and displays all invoices created today.
+ * This script fetches and displays all invoice errors created today.
  * 
- * Usage: npm run list-today-invoices
+ * Usage: npm run list-today-invoice-errors
  */
 
-// Suppress useless node warnings (like PG SSL warnings)
+// Suppress useless node warnings
 process.env.NODE_NO_WARNINGS = '1';
 
 import 'dotenv/config';
@@ -30,8 +30,8 @@ async function main(): Promise<void> {
     try {
         const { start, end } = getTodayDateRange();
 
-        // Fetch invoices created today
-        const invoices = await prisma.invoice.findMany({
+        // Fetch invoice errors created today
+        const errors = await prisma.invoiceError.findMany({
             where: {
                 createdAt: {
                     gte: start,
@@ -41,29 +41,37 @@ async function main(): Promise<void> {
             select: {
                 id: true,
                 flightId: true,
-                clientName: true,
+                errorType: true,
+                errorMessage: true,
+                createdAt: true
             },
             orderBy: {
                 createdAt: 'desc',
             },
         });
 
-        if (invoices.length === 0) {
-            console.log('No invoices created today.');
+        if (errors.length === 0) {
+            console.log('No invoice errors created today.');
         } else {
-            console.log('Today\'s Invoices:');
-            invoices.forEach(invoice => { 
-                console.log(`${invoice.id} | Flight: ${invoice.flightId} | ${invoice.clientName || 'Unknown'}`); // Updated log format
+            console.log('\n--- Today\'s Invoice Errors ---');
+            console.log('Flight ID | Error Type | Message');
+            console.log('--------------------------------------------------');
+            errors.forEach(err => {
+                const flightIdStr = err.flightId.toString();
+                console.log(`${flightIdStr} | ${err.errorType || 'N/A'} | ${err.errorMessage || 'N/A'}`);
             });
+            console.log('--------------------------------------------------');
+            console.log(`Total Errors Found: ${errors.length}\n`);
         }
 
         process.exit(0);
     } catch (error) {
-        console.error('Error fetching invoices:', error);
+        console.error('Error fetching invoice errors:', error);
         process.exit(1);
     } finally {
         await prisma.$disconnect();
     }
 }
 
+// Run the script
 main();

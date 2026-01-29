@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { ZodError } from 'zod';
 import { logger } from '../utils/logger.util';
+import { sendError, sendValidationError, ErrorCodes } from '../utils/response.util';
 import { InvoiceError } from '../../modules/invoices/errors/invoice.errors';
 
 /**
  * Global Error Handler Middleware
  * Centralizes all error handling logic
- * This is where HTTP mapping, logging, and response formatting happens
+ * Uses standardized response format from response.util.ts
  * 
  * Must be registered AFTER all routes in the Express app
  */
@@ -26,12 +27,9 @@ export function errorHandler(
 
         logger.warn({ err: error, path: req.path }, 'Validation error');
 
-        res.status(400).json({
-            error: 'Validation Error',
-            message: 'Request validation failed',
-            details: validationErrors,
+        sendValidationError(res, 'Request validation failed', {
+            errors: validationErrors,
             path: req.path,
-            timestamp: new Date().toISOString(),
         });
         return;
     }
@@ -40,12 +38,13 @@ export function errorHandler(
     if (error instanceof InvoiceError) {
         logger.info({ err: error, path: req.path }, 'Application error');
 
-        res.status(error.statusCode).json({
-            error: getErrorName(error.statusCode),
-            message: error.message,
-            path: req.path,
-            timestamp: new Date().toISOString(),
-        });
+        sendError(
+            res,
+            getErrorCode(error.statusCode),
+            error.message,
+            error.statusCode,
+            { path: req.path }
+        );
         return;
     }
 
@@ -54,43 +53,44 @@ export function errorHandler(
         const err = error as Error;
         logger.error({ err }, 'Unexpected error');
 
-        res.status(500).json({
-            error: 'Internal Server Error',
-            message:
-                process.env.NODE_ENV === 'development'
-                    ? err.message
-                    : 'An unexpected error occurred',
-            path: req.path,
-            timestamp: new Date().toISOString(),
-        });
+        sendError(
+            res,
+            ErrorCodes.INTERNAL_ERROR,
+            process.env.NODE_ENV === 'development'
+                ? err.message
+                : 'An unexpected error occurred',
+            500,
+            { path: req.path }
+        );
         return;
     }
 
     // Handle completely unknown error types
     logger.error({ err: error, path: req.path }, 'Unknown error type');
 
-    res.status(500).json({
-        error: 'Internal Server Error',
-        message: 'An unexpected error occurred',
-        path: req.path,
-        timestamp: new Date().toISOString(),
-    });
+    sendError(
+        res,
+        ErrorCodes.INTERNAL_ERROR,
+        'An unexpected error occurred',
+        500,
+        { path: req.path }
+    );
 }
 
 /**
- * Get human-readable error name from HTTP status code
+ * Get error code from HTTP status code
  */
-function getErrorName(statusCode: number): string {
-    const errorNames: Record<number, string> = {
-        400: 'Bad Request',
-        401: 'Unauthorized',
-        403: 'Forbidden',
-        404: 'Not Found',
-        409: 'Conflict',
-        422: 'Unprocessable Entity',
-        500: 'Internal Server Error',
-        503: 'Service Unavailable',
+function getErrorCode(statusCode: number): string {
+    const errorCodes: Record<number, string> = {
+        400: ErrorCodes.BAD_REQUEST,
+        401: ErrorCodes.UNAUTHORIZED,
+        403: ErrorCodes.FORBIDDEN,
+        404: ErrorCodes.NOT_FOUND,
+        409: ErrorCodes.CONFLICT,
+        422: ErrorCodes.VALIDATION_ERROR,
+        500: ErrorCodes.INTERNAL_ERROR,
+        503: ErrorCodes.SERVICE_UNAVAILABLE,
     };
 
-    return errorNames[statusCode] ?? 'Error';
+    return errorCodes[statusCode] ?? ErrorCodes.INTERNAL_ERROR;
 }

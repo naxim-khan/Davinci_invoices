@@ -25,6 +25,9 @@ import { logError, toAppError, getErrorMessage } from '../src/common/utils/error
 import FlightProcessingService from '../services/FlightProcessingService';
 import { InvoiceStatus } from '@prisma/client';
 import { TrackedFlight } from '../types/trackedFlight';
+import { DailyFlightLogger } from '../src/common/utils/daily-flight-logger';
+
+const dailyLogger = new DailyFlightLogger();
 
 // Helper to generate unique invoice number
 function generateInvoiceNumber(): string {
@@ -309,6 +312,20 @@ async function processSingleFlight(
             result.error = `Pinot fetch failed: ${appError.message}`;
             result.errorType = 'pinot_fetch';
             logger.error(result.error);
+
+            await dailyLogger.logError({
+                flightId: flightIdStr,
+                errorType: 'PINOT_FETCH_ERROR',
+                message: appError.message
+            });
+
+            await dailyLogger.logMasterSummary({
+                flightId: flightIdStr,
+                status: 'FAILED',
+                resultType: 'PINOT_ERROR',
+                message: appError.message
+            });
+
             return result;
         }
 
@@ -328,6 +345,20 @@ async function processSingleFlight(
                     result.status = 'success';
                     result.invoicesCreated = 0;
                     result.processingTimeMs = processingTime;
+
+                    await dailyLogger.logNonBillable({
+                        flightId: flightIdStr,
+                        reason: 'No FIR crossings detected',
+                        status: 'SKIPPED'
+                    });
+
+                    await dailyLogger.logMasterSummary({
+                        flightId: flightIdStr,
+                        status: 'NON_BILLABLE',
+                        resultType: 'NO_FIR_CROSSINGS',
+                        message: 'No output entries generated'
+                    });
+
                     return result;
                 }
 
@@ -343,6 +374,20 @@ async function processSingleFlight(
                 if (processedResult.error_traceback) {
                     console.error('Python Traceback:', processedResult.error_traceback);
                 }
+
+                await dailyLogger.logError({
+                    flightId: flightIdStr,
+                    errorType: 'PYTHON_PROCESSING_ERROR',
+                    message: processedResult.error_message || 'Unknown Python error'
+                });
+
+                await dailyLogger.logMasterSummary({
+                    flightId: flightIdStr,
+                    status: 'ERROR',
+                    resultType: 'PYTHON_ERROR',
+                    message: processedResult.error_message || 'Unknown Python error'
+                });
+
                 return result;
             }
 
@@ -354,6 +399,20 @@ async function processSingleFlight(
             result.error = `Python processing failed: ${appError.message}`;
             result.errorType = 'python_processing';
             logger.error(result.error);
+
+            await dailyLogger.logError({
+                flightId: flightIdStr,
+                errorType: 'PYTHON_PROCESSING_EXCEPTION',
+                message: appError.message
+            });
+
+            await dailyLogger.logMasterSummary({
+                flightId: flightIdStr,
+                status: 'FAILED',
+                resultType: 'PYTHON_EXCEPTION',
+                message: appError.message
+            });
+
             return result;
         }
 
@@ -430,84 +489,135 @@ async function processSingleFlight(
                             totalUsdAmount: totalUsdAmount,
                         },
                     });
-                    createdInvoices.push(invoice);
-                    invoicesCreated++;
-                }
+                });
+                createdInvoices.push(invoice);
+                invoicesCreated++;
+
+                await dailyLogger.logInvoiceTxt({
+                    invoiceId: invoice.invoiceNumber,
+                    flightId: flightIdStr,
+                    clientName: clientName,
+                    operatorId: entry.aircraft_data?.operator || 'N/A',
+                    invoiceAmount: invoice.totalUsdAmount || 0,
+                    invoiceDate: new Date()
+                });
+            }
 
                 // Save invoices to sqs.json for consistency/debugging
                 try {
-                    const outputDir = join(process.cwd(), 'data', 'processed-flights');
-                    await mkdir(outputDir, { recursive: true });
-                    const filepath = join(outputDir, 'sqs.json');
+                const outputDir = join(process.cwd(), 'data', 'processed-flights');
+                await mkdir(outputDir, { recursive: true });
+                const filepath = join(outputDir, 'sqs.json');
 
-                    const record = {
-                        flightId: flightIdStr,
-                        timestamp: new Date().toISOString(),
-                        invoices: createdInvoices
-                    };
-
-                    await appendFile(filepath, JSON.stringify(record, (_key, value) =>
-                        typeof value === 'bigint' ? value.toString() : value
-                    ) + '\n', 'utf-8');
-                    logger.success(`Saved items to: ${filepath}`);
-                } catch (saveError) {
-                    logger.warn(`Failed to save items to file: ${getErrorMessage(saveError)}`);
-                }
-
-                // Save flight data to flights.jsonl (mirroring SQSMessageHandler)
-                try {
-                    const outputDir = join(process.cwd(), 'data', 'processed-flights');
-                    const filepath = join(outputDir, 'flights.jsonl');
-                    const jsonLine = JSON.stringify(flightData);
-                    await appendFile(filepath, jsonLine + '\n', 'utf-8');
-                    logger.success(`Saved flight data to: ${filepath}`);
-                } catch (saveError) {
-                    logger.warn(`Failed to save flight data to file: ${getErrorMessage(saveError)}`);
-                }
-
-                logger.success(`Created ${invoicesCreated} invoice(s)`);
-            } catch (error) {
-                const appError = toAppError(error);
-
-                // Create Error Invoice for DB failure
-                const errorFileName = `error_db_${flightIdStr}_${Date.now()}.json`;
-                await writeFile(join(ERROR_INVOICES_DIR, errorFileName), JSON.stringify({
+                const record = {
                     flightId: flightIdStr,
-                    error: appError.message,
-                    entries: entries
-                }, null, 2));
-                result.errorInvoicesCreated = entries.length;
-                logger.warn(`Error invoice saved: ${errorFileName}`);
+                    timestamp: new Date().toISOString(),
+                    invoices: createdInvoices
+                };
 
-                result.error = `Invoice creation failed: ${appError.message}`;
-                result.errorType = 'invoice_creation';
-                logger.error(result.error);
-                return result;
+                await appendFile(filepath, JSON.stringify(record, (_key, value) =>
+                    typeof value === 'bigint' ? value.toString() : value
+                ) + '\n', 'utf-8');
+                logger.success(`Saved items to: ${filepath}`);
+            } catch (saveError) {
+                logger.warn(`Failed to save items to file: ${getErrorMessage(saveError)}`);
             }
-        } else {
-            logger.warn('No FIR crossings detected - no invoices created');
+
+            // Save flight data to flights.jsonl (mirroring SQSMessageHandler)
+            try {
+                const outputDir = join(process.cwd(), 'data', 'processed-flights');
+                const filepath = join(outputDir, 'flights.jsonl');
+                const jsonLine = JSON.stringify(flightData);
+                await appendFile(filepath, jsonLine + '\n', 'utf-8');
+                logger.success(`Saved flight data to: ${filepath}`);
+            } catch (saveError) {
+                logger.warn(`Failed to save flight data to file: ${getErrorMessage(saveError)}`);
+            }
+
+            logger.success(`Created ${invoicesCreated} invoice(s)`);
+        } catch (error) {
+            const appError = toAppError(error);
+
+            // Create Error Invoice for DB failure
+            const errorFileName = `error_db_${flightIdStr}_${Date.now()}.json`;
+            await writeFile(join(ERROR_INVOICES_DIR, errorFileName), JSON.stringify({
+                flightId: flightIdStr,
+                error: appError.message,
+                entries: entries
+            }, null, 2));
+            result.errorInvoicesCreated = entries.length;
+            logger.warn(`Error invoice saved: ${errorFileName}`);
+
+            result.error = `Invoice creation failed: ${appError.message}`;
+            result.errorType = 'invoice_creation';
+            logger.error(result.error);
+
+            await dailyLogger.logError({
+                flightId: flightIdStr,
+                errorType: 'INVOICE_CREATION_DB_ERROR',
+                message: appError.message
+            });
+
+            await dailyLogger.logMasterSummary({
+                flightId: flightIdStr,
+                status: 'FAILED',
+                resultType: 'DB_ERROR',
+                message: appError.message
+            });
+
+            return result;
         }
+    } else {
+        logger.warn('No FIR crossings detected - no invoices created');
 
-        // Success!
-        const processingTime = Date.now() - startTime;
-        result.status = 'success';
-        result.invoicesCreated = invoicesCreated;
-        result.processingTimeMs = processingTime;
-        delete result.error;
-        delete result.errorType;
-
-        logger.success(
-            `Flight processed successfully in ${(processingTime / 1000).toFixed(2)}s (${invoicesCreated} invoices)`,
-        );
-
-        return result;
-    } catch (error) {
-        const appError = toAppError(error);
-        result.error = `Unexpected error: ${appError.message}`;
-        result.errorType = 'unknown';
-        logger.error(result.error);
-        return result;
+        await dailyLogger.logNonBillable({
+            flightId: flightIdStr,
+            reason: 'No FIR crossings in output',
+            status: 'SKIPPED'
+        });
     }
+
+    // Success!
+    const processingTime = Date.now() - startTime;
+    result.status = 'success';
+    result.invoicesCreated = invoicesCreated;
+    result.processingTimeMs = processingTime;
+    delete result.error;
+    delete result.errorType;
+
+    logger.success(
+        `Flight processed successfully in ${(processingTime / 1000).toFixed(2)}s (${invoicesCreated} invoices)`,
+    );
+
+    await dailyLogger.logMasterSummary({
+        flightId: flightIdStr,
+        status: invoicesCreated > 0 ? 'INVOICED' : 'NON_BILLABLE',
+        resultType: 'SUCCESS',
+        message: `Created ${invoicesCreated} invoices`
+    });
+
+    return result;
+} catch (error) {
+    const appError = toAppError(error);
+    result.error = `Unexpected error: ${appError.message}`;
+    result.errorType = 'unknown';
+    logger.error(result.error); // Original logging
+
+    await dailyLogger.logError({
+        flightId: flightIdStr,
+        errorType: 'UNEXPECTED_ERROR',
+        message: appError.message
+    });
+
+    await dailyLogger.logMasterSummary({
+        flightId: flightIdStr,
+        status: 'FAILED',
+        resultType: 'UNEXPECTED',
+        message: appError.message
+    });
+
+    return result;
+}
 }
 
 /**
@@ -681,6 +791,10 @@ async function main(): Promise<void> {
 
         logger.divider();
         console.log('Pipeline completed successfully!\n');
+
+        logger.info('Generating Daily Summaries...');
+        await dailyLogger.writeDailySummary();
+        logger.success('Daily Summaries updated.');
 
         process.exit(0);
     } catch (error) {

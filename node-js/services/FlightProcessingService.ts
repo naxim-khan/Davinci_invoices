@@ -191,6 +191,7 @@ except Exception as e:
       const python = spawn('python', ['-c', script, ...args], {
         cwd: this.pythonScriptDir,
         stdio: ['pipe', 'pipe', 'pipe'],
+        env: { ...process.env, PYTHONIOENCODING: 'utf-8' },
       });
 
       let stdout = '';

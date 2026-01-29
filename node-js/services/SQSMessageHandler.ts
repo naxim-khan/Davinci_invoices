@@ -14,12 +14,17 @@ import {
   ProcessingOutputEntry,
   ProcessingError,
 } from '../types/processing'; // Import FeeDetails
+import {
+  OperatorMatchErrorTypes,
+  OperatorLookupResult,
+} from '../constants/operatorMatchErrors';
 import { prisma } from '../src/core/database/prisma.client'; // Import prisma for database access
 
 interface FlightMessage {
   flightId: string;
   service: string;
   timestamp: string;
+  flightData?: TrackedFlight;
 }
 
 export class SQSMessageHandler {
@@ -49,13 +54,13 @@ export class SQSMessageHandler {
   /**
    * Main handler for processing SQS messages
    */
-  async handleMessage(message: SQSMessage): Promise<void> {
+  async handleMessage(message: SQSMessage): Promise<number> {
     try {
       logger.info(`Processing SQS message: ${message.messageId}`);
 
       // Parse the message body
       const data = JSON.parse(message.body) as FlightMessage;
-      logger.info(data, `Message data:`);
+      logger.info({ flightId: data.flightId, service: data.service }, `Message data summary:`);
 
       // Extract flightId
       const { flightId } = data;
@@ -64,21 +69,30 @@ export class SQSMessageHandler {
         throw new Error('Missing flightId in message');
       }
 
-      // Query Pinot for flight data
-      logger.info(`Querying Pinot for flight: ${flightId}`);
-      const flightData = await this.getFlightFromPinot(flightId);
+      let flightData: TrackedFlight | null = null;
+
+      // Use data passed from worker if available
+      if ((data as any).flightData) {
+        flightData = (data as any).flightData as TrackedFlight;
+        logger.info(`Using provided flight data for flight: ${flightId}`);
+      } else {
+        // Query Pinot for flight data
+        logger.info(`Querying Pinot for flight: ${flightId}`);
+        flightData = await this.getFlightFromPinot(flightId);
+      }
 
       if (!flightData) {
         logger.warn(`No flight data found for flightId: ${flightId}`);
-        return;
+        return 0;
       }
 
       // Process the flight data
-      await this.processFlightData(flightData, data);
+      const invoiceCount = await this.processFlightData(flightData, data);
 
-      logger.info(`✓ Successfully processed message: ${message.messageId} for flight: ${flightId}`);
+      logger.info(`[V] Successfully processed message: ${message.messageId} for flight: ${flightId}`);
+      return invoiceCount;
     } catch (error: any) {
-      logger.error(`✗ Error processing SQS message: ${message.messageId}`, error);
+      logger.error(`[X] Error processing SQS message: ${message.messageId}`, error);
       throw error; // This will prevent message deletion and allow retry
     }
   }
@@ -141,8 +155,9 @@ export class SQSMessageHandler {
   private async processFlightData(
     flightData: TrackedFlight,
     messageData: FlightMessage,
-  ): Promise<void> {
+  ): Promise<number> {
     logger.info(`Processing flight data for ${messageData.flightId}`);
+    let invoiceCount = 0;
 
     // Normalize positions to include all required fields with proper types (gnd as boolean, etc.)
     const normalizedFlightData = this.normalizeFlightDataPositions(flightData);
@@ -150,11 +165,6 @@ export class SQSMessageHandler {
     // Log the positions data
     if (normalizedFlightData.positions && Array.isArray(normalizedFlightData.positions)) {
       logger.info(`Flight has ${normalizedFlightData.positions.length} position records`);
-
-      // Log first position as sample
-      if (normalizedFlightData.positions.length > 0) {
-        logger.info(normalizedFlightData.positions[0], `Sample position:`);
-      }
     }
 
     // Process flight with Python function (fee calculation, HTML maps, etc.)
@@ -163,16 +173,12 @@ export class SQSMessageHandler {
       const processingResult =
         await this.flightProcessingService.processFlight(normalizedFlightData);
 
-      // Log the full JSON result in formatted JSON
-      logger.info('Full flight processing result (JSON):');
-      logger.info(JSON.stringify(processingResult, null, 2));
-
       if (processingResult.success) {
         logger.info({
           masterFile: processingResult.master_file,
           outputEntriesCount: processingResult.output_entries?.length || 0,
           countriesProcessed: processingResult.output_entries?.map((e) => e.country) || [],
-        }, '✓ Flight processing completed successfully');
+        }, '[V] Flight processing completed successfully');
 
         // Log output entries summary
         if (processingResult.output_entries && processingResult.output_entries.length > 0) {
@@ -199,28 +205,37 @@ export class SQSMessageHandler {
         }
 
         // Create invoices for successful output entries
-        // Create invoices for successful output entries
         if (processingResult.output_entries && processingResult.output_entries.length > 0) {
+          logger.info(`🔄 Starting invoice creation for ${processingResult.output_entries.length} output entries...`);
           const invoices = await this.createInvoicesFromOutputEntries(processingResult.output_entries);
+          invoiceCount += invoices.length;
           await this.saveInvoicesToFile(String(normalizedFlightData.flightId), invoices);
+        } else {
+          logger.warn('⚠️ No output_entries found in processing result - no invoices will be created');
         }
 
         // Create invoices for errors (even when success is true, there might be data quality errors)
         if (processingResult.errors && processingResult.errors.length > 0) {
-          await this.createInvoicesFromErrors(processingResult.errors);
+          const errorInvoicesCount = await this.createInvoicesFromErrors(processingResult.errors);
+          invoiceCount += errorInvoicesCount;
         }
       } else {
-        logger.error({
+        const isNoOutput = processingResult.error_message?.includes('No output entries');
+        const logFn = isNoOutput ? logger.warn.bind(logger) : logger.error.bind(logger);
+        const statusIcon = isNoOutput ? '[-]' : '[X]';
+
+        logFn({
           errorMessage: processingResult.error_message,
           errorTraceback: processingResult.error_traceback,
-        }, '✗ Flight processing failed:');
+        }, `${statusIcon} Flight processing failed - no invoices will be created:`);
 
         // Even when processing fails, create invoices for errors if they exist
         if (processingResult.errors && processingResult.errors.length > 0) {
           logger.info(
             `Creating invoices for ${processingResult.errors.length} error(s) despite processing failure`,
           );
-          await this.createInvoicesFromErrors(processingResult.errors);
+          const errorInvoicesCount = await this.createInvoicesFromErrors(processingResult.errors);
+          invoiceCount += errorInvoicesCount;
         }
 
         // Don't throw - we still want to save the flight data even if processing fails
@@ -239,7 +254,10 @@ export class SQSMessageHandler {
       messageTimestamp: messageData.timestamp,
       service: messageData.service,
       positionsCount: normalizedFlightData.positions?.length || 0,
+      invoicesCreated: invoiceCount
     }, `Flight processed:`);
+
+    return invoiceCount;
   }
 
   /**
@@ -431,19 +449,48 @@ export class SQSMessageHandler {
           replacementSuffix: null,
         };
 
-        // Lookup Operator ID (ClientKYC)
-        // Try looking up by ibaId (if we had it) or exact name match
-        // For now, simple name match or null
-        const operatorId = await this.lookupOperatorId(invoiceData.clientName);
-        if (operatorId) {
-          invoiceData.operatorId = operatorId;
+        // Extract IBA and JetNet operator IDs from aircraft_data
+        // These can be at the top-level if flattened, or nested in currentState.operator.id
+        const operatorIds = entry.aircraft_data?.currentState?.operator?.id;
+        const ibaOperatorId = entry.aircraft_data?.ibaOperatorId
+          || (operatorIds?.iba ? String(operatorIds.iba) : undefined);
+        const jetnetOperatorId = entry.aircraft_data?.jetnetOperatorId
+          || (operatorIds?.jetnet ? String(operatorIds.jetnet) : undefined);
+
+        // Lookup Operator ID (ClientKYC) - prioritizes IBA ID, then JetNet ID, then name match
+        const lookupResult = await this.lookupOperatorId(
+          invoiceData.clientName,
+          ibaOperatorId,
+          jetnetOperatorId
+        );
+
+        if (lookupResult.operatorId) {
+          // Operator matched - populate operatorId and store the IBA/JetNet IDs used
+          invoiceData.operatorId = lookupResult.operatorId;
+          invoiceData.ibaId = ibaOperatorId;
+          invoiceData.jetnetId = jetnetOperatorId;
+        } else {
+          // No operator match found - create an InvoiceError instead
+          logger.warn(
+            `No operator match for flight ${entry.flight_id}, creating error invoice with type: ${lookupResult.error}`
+          );
+          await this.createOperatorMatchError(entry, lookupResult);
+          continue; // Skip creating normal invoice
         }
 
         const invoice = await InvoiceService.create(invoiceData);
         createdInvoices.push(invoice);
-        logger.info(
-          `✓ Created invoice ${invoice.invoiceNumber} for flight ${entry.flight_data?.cs || 'unknown'} - ${entry.country}`,
-        );
+
+        // Log detailed invoice creation summary
+        logger.info({
+          invoiceNumber: invoice.invoiceNumber,
+          flightId: entry.flight_id,
+          country: entry.country,
+          registration: entry.aircraft_data?.registration || 'N/A',
+          operator: invoiceData.clientName,
+          totalUsd: invoiceData.totalUsdAmount?.toFixed(2) || '0.00',
+          currency: entry.fee_details?.currency || 'USD',
+        }, `✓ 💾 INVOICE SAVED: ${invoice.invoiceNumber} | ${entry.country} | ${entry.aircraft_data?.registration || 'N/A'} | $${invoiceData.totalUsdAmount?.toFixed(2) || '0.00'} USD`);
       } catch (error: any) {
         logger.error({
           entry: entry.country,
@@ -452,15 +499,25 @@ export class SQSMessageHandler {
         // Continue with other entries even if one fails
       }
     }
+
+    // Log batch summary
+    if (createdInvoices.length > 0) {
+      logger.info({
+        invoicesCreated: createdInvoices.length,
+        totalOutputEntries: outputEntries.length,
+      }, `📊 INVOICE BATCH SUMMARY: ${createdInvoices.length} invoices saved to DB (out of ${outputEntries.length} entries processed)`);
+    }
+
     return createdInvoices;
   }
 
   /**
    * Create error invoice records from errors
    */
-  private async createInvoicesFromErrors(errors: ProcessingError[]): Promise<void> {
+  private async createInvoicesFromErrors(errors: ProcessingError[]): Promise<number> {
     const issueDate = new Date(); // Current date as issue date
     const dueDate = this.calculateDueDate(issueDate);
+    let count = 0;
 
     for (const error of errors) {
       try {
@@ -502,6 +559,15 @@ export class SQSMessageHandler {
           fxRate: undefined,
           totalUsdAmount: undefined,
 
+          // IBA and JetNet operator IDs (if available)
+          // Extract from both flattened and nested structure
+          ibaId: error.aircraft_data?.ibaOperatorId
+            || (error.aircraft_data?.currentState?.operator?.id?.iba
+              ? String(error.aircraft_data.currentState.operator.id.iba) : undefined),
+          jetnetId: error.aircraft_data?.jetnetOperatorId
+            || (error.aircraft_data?.currentState?.operator?.id?.jetnet
+              ? String(error.aircraft_data.currentState.operator.id.jetnet) : undefined),
+
           // Error handling
           hasError: true,
           errorType: error.error_type || error.error_type_detected || 'UNKNOWN_ERROR',
@@ -511,6 +577,7 @@ export class SQSMessageHandler {
         };
 
         const invoice = await InvoiceErrorService.create(errorInvoiceData);
+        count++;
         logger.info(
           `✓ Created error invoice ${invoice.invoiceNumber} for flight ${error.flight_data?.cs || error.flight_id || 'unknown'} - ${error.country || 'unknown country'}`,
         );
@@ -522,40 +589,191 @@ export class SQSMessageHandler {
         // Continue with other errors even if one fails
       }
     }
+    return count;
   }
 
   /**
-   * Helper to look up operator ID from ClientKYC table
+   * Create an error invoice for operator match failures
+   * Called when an output entry cannot be matched to a ClientKYC record
    */
-  private async lookupOperatorId(clientName: string): Promise<number | null> {
-    if (!clientName || clientName === 'Unknown Operator') return null;
+  private async createOperatorMatchError(
+    entry: ProcessingOutputEntry,
+    lookupResult: OperatorLookupResult
+  ): Promise<void> {
+    const issueDate = new Date();
+    const dueDate = this.calculateDueDate(issueDate);
 
     try {
-      // Try exact name match first
-      const client = await prisma.clientKYC.findFirst({
-        where: {
-          OR: [
-            {
-              fullLegalNameEntity: {
-                equals: clientName,
-                mode: 'insensitive',
-              },
-            },
-            {
-              tradingBrandName: {
-                equals: clientName,
-                mode: 'insensitive',
-              },
-            },
-          ],
-        },
-        select: { id: true },
-      });
+      const errorInvoiceData = {
+        issueDate,
+        dueDate,
+        status: InvoiceStatus.DRAFT,
+        flightId: entry.flight_id,
 
-      return client?.id || null;
-    } catch (error) {
-      console.warn(`Failed to lookup operator ID for ${clientName}`, error);
-      return null;
+        // Customer info
+        clientName:
+          entry.aircraft_data?.operatorName || entry.aircraft_data?.ownerName || 'Unknown Operator',
+
+        // Flight / FIR metadata
+        flightNumber: entry.flight_data?.cs || entry.flight_data?.ident || 'Unknown',
+        originIcao: entry.takeoff_airport_icao || undefined,
+        destinationIcao: entry.landing_airport_icao || undefined,
+        originIata: entry.takeoff_airport_iata || undefined,
+        destinationIata: entry.landing_airport_iata || undefined,
+        registrationNumber: entry.aircraft_data?.registration || undefined,
+        aircraftModelName:
+          entry.aircraft_data?.aircraftModelName || entry.aircraft_data?.model || null,
+        act: entry.act || entry.flight_data?.act || undefined,
+        modeSHex: entry.flight_data?.ms || undefined,
+        alic: entry.flight_data?.alic || undefined,
+        flightDate: entry.flight_date ? new Date(entry.flight_date) : new Date(issueDate),
+        firName: entry.fir_label || entry.fir_name || undefined,
+        firCountry: entry.country || undefined,
+        firEntryTimeUtc: entry.earliest_entry_time
+          ? new Date(entry.earliest_entry_time)
+          : null,
+        firExitTimeUtc: entry.latest_exit_time ? new Date(entry.latest_exit_time) : null,
+
+        // Fee breakdown (preserve even though invoice is in error)
+        feeDescription: entry.fee_details?.calculation_description || undefined,
+        feeAmount: entry.fee_details?.fee || undefined,
+        otherFeesAmount: typeof entry.fee_details?.other_fees === 'number' ? entry.fee_details.other_fees : 0,
+        totalOriginalAmount:
+          entry.fee_details?.fee && entry.fee_details?.other_fees !== undefined
+            ? entry.fee_details.fee +
+            (Array.isArray(entry.fee_details.other_fees) ? 0 : entry.fee_details.other_fees || 0)
+            : undefined,
+        originalCurrency: entry.fee_details?.currency || undefined,
+        fxRate: entry.fee_details?.fx_rate || entry.fee_details?.fx_rate_usd || undefined,
+        totalUsdAmount:
+          entry.fee_details?.total_amount_usd !== undefined
+            ? Number(entry.fee_details.total_amount_usd)
+            : undefined,
+
+        // IBA and JetNet operator IDs (for potential manual resolution)
+        ibaId: lookupResult.attemptedIbaId,
+        jetnetId: lookupResult.attemptedJetnetId,
+
+        // Error handling
+        hasError: true,
+        errorType: lookupResult.error || 'OPERATOR_MATCH_FAILED',
+        errorMessage: `Operator matching failed: ${lookupResult.error}. Attempted IBA ID: ${lookupResult.attemptedIbaId || 'none'}, JetNet ID: ${lookupResult.attemptedJetnetId || 'none'}`,
+        errorStatus: ErrorStatus.PENDING,
+      };
+
+      const errorInvoice = await InvoiceErrorService.create(errorInvoiceData);
+      logger.info(
+        `✓ Created operator match error invoice ${errorInvoice.invoiceNumber} for flight ${entry.flight_data?.cs || entry.flight_id} - ${entry.country} (error: ${lookupResult.error})`
+      );
+    } catch (err: any) {
+      logger.error({
+        flightId: entry.flight_id,
+        country: entry.country,
+        error: lookupResult.error,
+      }, `Failed to create operator match error invoice: ${err.message}`);
+    }
+  }
+  /**
+   * Helper to look up operator ID from ClientKYC table
+   * Prioritizes IBA ID match, then JetNet ID match, then falls back to name match
+   */
+  private async lookupOperatorId(
+    clientName: string,
+    ibaOperatorId?: string,
+    jetnetOperatorId?: string
+  ): Promise<OperatorLookupResult> {
+    try {
+      // 1. Try IBA ID match first (if available)
+      if (ibaOperatorId) {
+        const client = await prisma.clientKYC.findFirst({
+          where: { ibaId: ibaOperatorId },
+          select: { id: true },
+        });
+        if (client) {
+          logger.debug(`Matched operator by IBA ID: ${ibaOperatorId}`);
+          return {
+            operatorId: client.id,
+            matchMethod: 'iba_id',
+            attemptedIbaId: ibaOperatorId,
+            attemptedJetnetId: jetnetOperatorId,
+          };
+        }
+      }
+
+      // 2. Try JetNet ID match (if available)
+      if (jetnetOperatorId) {
+        const client = await prisma.clientKYC.findFirst({
+          where: { jetnetId: jetnetOperatorId },
+          select: { id: true },
+        });
+        if (client) {
+          logger.debug(`Matched operator by JetNet ID: ${jetnetOperatorId}`);
+          return {
+            operatorId: client.id,
+            matchMethod: 'jetnet_id',
+            attemptedIbaId: ibaOperatorId,
+            attemptedJetnetId: jetnetOperatorId,
+          };
+        }
+      }
+
+      // 3. Fall back to name matching
+      if (clientName && clientName !== 'Unknown Operator') {
+        const client = await prisma.clientKYC.findFirst({
+          where: {
+            OR: [
+              {
+                fullLegalNameEntity: {
+                  equals: clientName,
+                  mode: 'insensitive',
+                },
+              },
+              {
+                tradingBrandName: {
+                  equals: clientName,
+                  mode: 'insensitive',
+                },
+              },
+            ],
+          },
+          select: { id: true },
+        });
+        if (client) {
+          logger.debug(`Matched operator by name: ${clientName}`);
+          return {
+            operatorId: client.id,
+            matchMethod: 'name_match',
+            attemptedIbaId: ibaOperatorId,
+            attemptedJetnetId: jetnetOperatorId,
+          };
+        }
+      }
+
+      // 4. No match found - determine error type
+      let errorType: string;
+      if (!ibaOperatorId && !jetnetOperatorId) {
+        errorType = OperatorMatchErrorTypes.OPERATOR_ID_NOT_FOUND;
+      } else {
+        errorType = OperatorMatchErrorTypes.OPERATOR_ID_MISMATCH;
+      }
+
+      logger.warn(`No operator match found for: name="${clientName}", ibaId="${ibaOperatorId}", jetnetId="${jetnetOperatorId}", error=${errorType}`);
+      return {
+        operatorId: null,
+        matchMethod: 'none',
+        error: errorType as any,
+        attemptedIbaId: ibaOperatorId,
+        attemptedJetnetId: jetnetOperatorId,
+      };
+    } catch (error: any) {
+      logger.error(`Failed to lookup operator ID for ${clientName}: ${error.message}`);
+      return {
+        operatorId: null,
+        matchMethod: 'none',
+        error: OperatorMatchErrorTypes.CLIENT_KYC_NOT_FOUND,
+        attemptedIbaId: ibaOperatorId,
+        attemptedJetnetId: jetnetOperatorId,
+      };
     }
   }
 

@@ -4,6 +4,8 @@ export interface AircraftSummary {
     operatorName?: string;
     aircraftModelName?: string;
     model?: string; // Mapped from Python 'model'
+    ibaOperatorId?: string;      // IBA operatorID from consolidate_aircraft.py
+    jetnetOperatorId?: string;   // JetNet companyid from consolidate_aircraft.py
     [key: string]: any;
 }
 

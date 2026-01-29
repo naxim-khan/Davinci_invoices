@@ -17,6 +17,8 @@
     "process-batch": "tsx --no-warnings scripts/process-flight-batch.ts",
     "test-flight": "tsx scripts/test-single-flight.ts",
     "list-today-invoices": "tsx --no-warnings scripts/list-today-invoices.ts",
+    "list-today-invoice-errors": "tsx --no-warnings scripts/list-today-invoice-errors.ts",
+    "analyze-today": "tsx --no-warnings scripts/analyze-today-processing.ts",
     "test": "vitest",
     "test:run": "vitest run",
     "test:cov": "vitest run --coverage",
